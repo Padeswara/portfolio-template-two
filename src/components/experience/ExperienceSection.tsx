@@ -26,14 +26,14 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ onNavigate
     <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-5xl mx-auto w-full">
       <div className="space-y-6">
         {/* Section Header */}
-        <div className="text-center space-y-2">
+        <div className="text-left space-y-2">
           <div className="inline-block bg-black border-2 border-[#00f3ff] px-3 py-1 font-press-start text-[9px] text-[#00f3ff] shadow-[2px_2px_0_0_#ff007f]">
             STAGE 05 // GUILD HISTORY
           </div>
           <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#ff007f]">
             QUEST LOG & BOSS DEFEATS
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl mx-auto">
+          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl">
             Chronological record of company campaigns, guild raids, and unlocked accomplishments.
           </p>
 

@@ -444,23 +444,24 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
   };
 
   return (
-    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-4xl mx-auto w-full text-center">
+    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-4xl mx-auto w-full">
       <div className="space-y-5">
         {/* Header */}
-        <div className="space-y-2">
+        <div className="text-left space-y-2">
           <div className="inline-block bg-black border-2 border-[#39ff14] px-3 py-1 font-press-start text-[9px] text-[#39ff14] shadow-[2px_2px_0_0_#ff007f]">
             STAGE 04 // PLAYABLE ARCADE ROOM
           </div>
           <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#39ff14]">
             BUG SMASHER: CODE DEFENDER
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-lg mx-auto">
+          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-lg">
             Defend your web build from incoming bugs, merge conflicts, and memory leaks!
           </p>
         </div>
 
-        {/* Arcade Cabinet Screen */}
-        <div className="relative inline-block bg-[#120625] border-4 border-[#00f3ff] p-3 sm:p-4 shadow-[6px_6px_0_0_#ff007f] max-w-full">
+        {/* Arcade Cabinet Screen Container */}
+        <div className="text-center">
+          <div className="relative inline-block bg-[#120625] border-4 border-[#00f3ff] p-3 sm:p-4 shadow-[6px_6px_0_0_#ff007f] max-w-full">
           {/* Top Bar */}
           <div className="flex justify-between items-center bg-black px-3 py-1.5 border-2 border-white/20 mb-2.5 font-press-start text-[8px] sm:text-[9px] text-white">
             <div className="flex items-center space-x-3">
@@ -550,6 +551,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
             </button>
           </div>
         </div>
+      </div>
 
         {/* Next Stage Navigation CTA */}
         {onNavigateStage && (

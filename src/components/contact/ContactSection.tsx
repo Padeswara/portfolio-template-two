@@ -66,14 +66,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onNavigateStage 
     <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-5xl mx-auto w-full">
       <div className="space-y-6">
         {/* Section Header */}
-        <div className="text-center space-y-2">
+        <div className="text-left space-y-2">
           <div className="inline-block bg-black border-2 border-[#39ff14] px-3 py-1 font-press-start text-[9px] text-[#39ff14] shadow-[2px_2px_0_0_#ff007f]">
             STAGE 06 // SAVE POINT & COMMS
           </div>
           <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#39ff14]">
             SAVE POINT // SEND TRANSMISSION
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl mx-auto">
+          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl">
             Save your progress, forge a party alliance, or recruit me for upcoming web campaigns.
           </p>
         </div>
