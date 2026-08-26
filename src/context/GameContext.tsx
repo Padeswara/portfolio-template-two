@@ -61,6 +61,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const level = Math.floor(exp / 500) + 1;
   const nextLevelExp = level * 500;
 
+  // Persist state
   useEffect(() => {
     localStorage.setItem('retro_coins', coins.toString());
   }, [coins]);
@@ -77,20 +78,24 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('retro_achievements', JSON.stringify(unlockedAchievements));
   }, [unlockedAchievements]);
 
-  const addCoins = (amount = 1) => {
-    setCoins((prev) => prev + amount);
-    soundEngine.playCoin();
-    addExp(10 * amount);
+  const addCoins = (amount: number = 1) => {
+    setCoins((prev) => {
+      const next = prev + amount;
+      if (next >= 1) {
+        unlockAchievement('first_coin');
+      }
+      return next;
+    });
   };
 
   const insertCoin = () => {
+    soundEngine.playCoin();
     addCoins(1);
-    unlockAchievement('first_coin');
+    addExp(25);
   };
 
   const addScore = (amount: number) => {
     setScore((prev) => prev + amount);
-    addExp(Math.floor(amount / 2));
   };
 
   const addExp = (amount: number) => {
@@ -106,7 +111,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
           particleCount: 80,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#00f3ff', '#ff007f', '#ffe600', '#39ff14'],
+          colors: ['#e69d24', '#5a8740', '#8c5835', '#d64545'],
         });
       }
       return nextExp;
@@ -125,13 +130,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Trigger celebratory confetti
     confetti({
-      particleCount: 100,
-      spread: 80,
+      particleCount: 90,
+      spread: 75,
       origin: { y: 0.7 },
-      colors: ['#ffe600', '#ff007f', '#00f3ff'],
+      colors: ['#e69d24', '#7cb359', '#fff8eb', '#d64545'],
     });
 
-    setExp((prev) => prev + ach.expReward);
+    setExp((prev) => prev + ach.rewardExp);
 
     // Auto-dismiss toast after 5s
     setTimeout(() => {
@@ -147,13 +152,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setMp(999);
     setExp(50000);
     soundEngine.playVictory();
-    unlockAchievement('konami_warrior');
+    unlockAchievement('konami_god_mode');
 
     confetti({
-      particleCount: 250,
-      spread: 120,
+      particleCount: 200,
+      spread: 110,
       origin: { y: 0.5 },
-      colors: ['#ffd700', '#ff0055', '#00ffee', '#76ff03'],
+      colors: ['#e69d24', '#7cb359', '#fff8eb', '#d64545'],
     });
   };
 

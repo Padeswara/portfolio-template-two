@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useAudio } from '../../context/AudioContext';
 import { useGame } from '../../context/GameContext';
 import { PixelButton } from '../ui/PixelButton';
+import { PixelCard } from '../ui/PixelCard';
 import { Gamepad2, RotateCcw, Play, ArrowRight } from 'lucide-react';
 
 interface Bug {
@@ -12,7 +13,7 @@ interface Bug {
   speed: number;
   hp: number;
   maxHp: number;
-  type: 'null' | 'overflow' | 'conflict' | 'memory';
+  type: 'weed' | 'crow' | 'slime' | 'beetle';
   emoji: string;
   points: number;
 }
@@ -37,7 +38,7 @@ interface Particle {
 interface PowerUp {
   x: number;
   y: number;
-  type: 'coffee' | 'shield' | 'bomb';
+  type: 'tea' | 'strawberry' | 'corn';
   emoji: string;
   speed: number;
 }
@@ -54,7 +55,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'gameover'>('idle');
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(() => {
-    const saved = localStorage.getItem('bug_smasher_highscore');
+    const saved = localStorage.getItem('harvest_smasher_highscore');
     return saved ? parseInt(saved, 10) : 0;
   });
   const [lives, setLives] = useState(3);
@@ -64,13 +65,13 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
   // Player position
   const playerRef = useRef({
     x: 184,
-    y: 340,
+    y: 330,
     width: 32,
     height: 32,
-    speed: 6,
+    speed: 5.5,
     isShooting: false,
     lastShot: 0,
-    shotCooldown: 180, // ms
+    shotCooldown: 180,
   });
 
   const keysRef = useRef<{ [key: string]: boolean }>({});
@@ -83,25 +84,25 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
 
   // Spawn bug
   const spawnBug = useCallback(() => {
-    const types: Bug['type'][] = ['null', 'overflow', 'conflict', 'memory'];
+    const types: Bug['type'][] = ['weed', 'crow', 'slime', 'beetle'];
     const randType = types[Math.floor(Math.random() * types.length)];
     const canvasWidth = 380;
 
-    let emoji = '👾';
+    let emoji = '🌿';
     let hp = 1;
-    let speed = 1.2 + Math.random() * 1.5 + wave * 0.2;
+    let speed = 1.2 + Math.random() * 1.3 + wave * 0.15;
     let points = 50;
 
-    if (randType === 'overflow') {
-      emoji = '🐛';
+    if (randType === 'crow') {
+      emoji = '🐦';
       hp = 2;
       points = 80;
-    } else if (randType === 'conflict') {
-      emoji = '⚡';
-      speed *= 1.4;
+    } else if (randType === 'slime') {
+      emoji = '🧪';
+      speed *= 1.3;
       points = 100;
-    } else if (randType === 'memory') {
-      emoji = '🕷️';
+    } else if (randType === 'beetle') {
+      emoji = '🪲';
       hp = 4;
       speed *= 0.7;
       points = 200;
@@ -121,7 +122,6 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
     });
   }, [wave]);
 
-  // Start game
   const startGame = () => {
     bugsRef.current = [];
     bulletsRef.current = [];
@@ -137,7 +137,6 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
     playPowerUp();
   };
 
-  // Keyboard listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' ', 'a', 'd', 'w'].includes(e.key)) {
@@ -177,19 +176,20 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
       const width = canvas.width;
       const height = canvas.height;
 
-      // 1. Clear & Background Grid
-      ctx.fillStyle = '#0a0314';
+      // Soft pasture soil background
+      ctx.fillStyle = '#4a7536';
       ctx.fillRect(0, 0, width, height);
 
-      // Starfield dots
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-      for (let i = 0; i < 20; i++) {
-        const sx = (i * 37 + (timestamp * 0.05) % height) % width;
-        const sy = (i * 53 + (timestamp * 0.1) % height) % height;
-        ctx.fillRect(sx, sy, 2, 2);
+      // Soil grid lines
+      ctx.strokeStyle = 'rgba(74, 46, 24, 0.2)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < width; i += 32) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, height);
+        ctx.stroke();
       }
 
-      // 2. Handle Player Input
       const player = playerRef.current;
       if (keysRef.current['arrowleft'] || keysRef.current['a']) {
         player.x = Math.max(10, player.x - player.speed);
@@ -198,7 +198,6 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
         player.x = Math.min(width - player.width - 10, player.x + player.speed);
       }
 
-      // Shoot
       if (
         (keysRef.current[' '] || keysRef.current['arrowup'] || keysRef.current['w']) &&
         timestamp - player.lastShot > player.shotCooldown
@@ -213,30 +212,28 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
         playLaser();
       }
 
-      // 3. Spawn Bugs
       const spawnInterval = Math.max(600, 1600 - wave * 150);
       if (timestamp - lastSpawnRef.current > spawnInterval) {
         spawnBug();
         lastSpawnRef.current = timestamp;
       }
 
-      // 4. Update Bullets
+      // Bullets (Water droplets / Seeds)
       for (let i = bulletsRef.current.length - 1; i >= 0; i--) {
         const b = bulletsRef.current[i];
         b.y -= b.speed;
 
-        ctx.fillStyle = '#00f3ff';
-        ctx.shadowColor = '#00f3ff';
-        ctx.shadowBlur = 8;
-        ctx.fillRect(b.x - 2, b.y, 4, 10);
-        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#90e0ef';
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 4, 0, Math.PI * 2);
+        ctx.fill();
 
         if (b.y < -10) {
           bulletsRef.current.splice(i, 1);
         }
       }
 
-      // 5. Update Bugs & Collisions
+      // Bugs / Weeds
       for (let i = bugsRef.current.length - 1; i >= 0; i--) {
         const bug = bugsRef.current[i];
         bug.y += bug.speed;
@@ -251,11 +248,10 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
           const hpPercent = bug.hp / bug.maxHp;
           ctx.fillStyle = 'rgba(0,0,0,0.6)';
           ctx.fillRect(bug.x, bug.y - 6, barWidth, 3);
-          ctx.fillStyle = '#ff007f';
+          ctx.fillStyle = '#d64545';
           ctx.fillRect(bug.x, bug.y - 6, barWidth * hpPercent, 3);
         }
 
-        // Bullet vs Bug collision
         for (let j = bulletsRef.current.length - 1; j >= 0; j--) {
           const bullet = bulletsRef.current[j];
           if (
@@ -274,7 +270,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
                 y: bullet.y,
                 vx: (Math.random() - 0.5) * 4,
                 vy: (Math.random() - 0.5) * 4,
-                color: '#ffe600',
+                color: '#e69d24',
                 life: 15,
                 maxLife: 15,
               });
@@ -286,7 +282,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
                 const newScore = prev + bug.points;
                 if (newScore > highScore) {
                   setHighScore(newScore);
-                  localStorage.setItem('bug_smasher_highscore', newScore.toString());
+                  localStorage.setItem('harvest_smasher_highscore', newScore.toString());
                 }
                 if (newScore >= 500) {
                   unlockAchievement('arcade_champion');
@@ -297,15 +293,15 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
               addGlobalScore(bug.points);
               addCoins(1);
 
-              for (let p = 0; p < 12; p++) {
+              for (let p = 0; p < 10; p++) {
                 particlesRef.current.push({
                   x: bug.x + bug.width / 2,
                   y: bug.y + bug.height / 2,
-                  vx: (Math.random() - 0.5) * 6,
-                  vy: (Math.random() - 0.5) * 6,
-                  color: bug.type === 'memory' ? '#ff3838' : '#39ff14',
-                  life: 25,
-                  maxLife: 25,
+                  vx: (Math.random() - 0.5) * 5,
+                  vy: (Math.random() - 0.5) * 5,
+                  color: '#7cb359',
+                  life: 20,
+                  maxLife: 20,
                 });
               }
 
@@ -313,8 +309,8 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
                 powerUpsRef.current.push({
                   x: bug.x,
                   y: bug.y,
-                  type: Math.random() < 0.5 ? 'coffee' : 'shield',
-                  emoji: Math.random() < 0.5 ? '☕' : '🛡️',
+                  type: Math.random() < 0.5 ? 'tea' : 'strawberry',
+                  emoji: Math.random() < 0.5 ? '🍵' : '🍓',
                   speed: 2,
                 });
               }
@@ -325,7 +321,6 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
           }
         }
 
-        // Bug reaches bottom
         if (bug && bug.y > height - 40) {
           bugsRef.current.splice(i, 1);
           setLives((prev) => {
@@ -339,7 +334,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
         }
       }
 
-      // 6. Update PowerUps
+      // Power-ups
       for (let i = powerUpsRef.current.length - 1; i >= 0; i--) {
         const pup = powerUpsRef.current[i];
         pup.y += pup.speed;
@@ -354,14 +349,14 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
           pup.y <= player.y + player.height
         ) {
           playPowerUp();
-          if (pup.type === 'coffee') {
-            player.speed = 9;
-            player.shotCooldown = 100;
+          if (pup.type === 'tea') {
+            player.speed = 8;
+            player.shotCooldown = 110;
             setTimeout(() => {
-              player.speed = 6;
+              player.speed = 5.5;
               player.shotCooldown = 180;
             }, 5000);
-          } else if (pup.type === 'shield') {
+          } else if (pup.type === 'strawberry') {
             setHasShield(true);
             setTimeout(() => setHasShield(false), 6000);
           }
@@ -371,7 +366,7 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
         }
       }
 
-      // 7. Update Particles
+      // Particles
       for (let i = particlesRef.current.length - 1; i >= 0; i--) {
         const p = particlesRef.current[i];
         p.x += p.vx;
@@ -386,19 +381,20 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
         }
       }
 
-      // 8. Draw Player
-      ctx.fillStyle = '#ff007f';
-      ctx.fillRect(player.x, player.y + 12, player.width, 10);
-      ctx.fillStyle = '#00f3ff';
-      ctx.fillRect(player.x + 8, player.y + 4, 16, 20);
-      ctx.fillStyle = '#ffe600';
-      ctx.fillRect(player.x + 12, player.y + 8, 8, 8);
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(player.x + 14, player.y - 2, 4, 6);
+      // Draw Farmer
+      ctx.fillStyle = '#e69d24'; // Straw Hat
+      ctx.fillRect(player.x + 4, player.y + 4, 24, 6);
+      ctx.fillStyle = '#ffd1a9'; // Face
+      ctx.fillRect(player.x + 8, player.y + 10, 16, 8);
+      ctx.fillStyle = '#4a709c'; // Overalls
+      ctx.fillRect(player.x + 6, player.y + 18, 20, 12);
+      ctx.fillStyle = '#5c3a21'; // Boots
+      ctx.fillRect(player.x + 6, player.y + 30, 8, 3);
+      ctx.fillRect(player.x + 18, player.y + 30, 8, 3);
 
       if (hasShield) {
-        ctx.strokeStyle = '#00f3ff';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#ffe082';
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(player.x + 16, player.y + 16, 24, 0, Math.PI * 2);
         ctx.stroke();
@@ -444,129 +440,169 @@ export const BugSmasherGame: React.FC<BugSmasherGameProps> = ({ onNavigateStage 
   };
 
   return (
-    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-4xl mx-auto w-full">
-      <div className="space-y-5">
-        {/* Header */}
-        <div className="text-left space-y-2">
-          <div className="inline-block bg-black border-2 border-[#39ff14] px-3 py-1 font-press-start text-[9px] text-[#39ff14] shadow-[2px_2px_0_0_#ff007f]">
-            STAGE 04 // PLAYABLE ARCADE ROOM
-          </div>
-          <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#39ff14]">
-            BUG SMASHER: CODE DEFENDER
-          </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-lg">
-            Defend your web build from incoming bugs, merge conflicts, and memory leaks!
-          </p>
-        </div>
-
-        {/* Arcade Cabinet Screen Container */}
-        <div className="text-center">
-          <div className="relative inline-block bg-[#120625] border-4 border-[#00f3ff] p-3 sm:p-4 shadow-[6px_6px_0_0_#ff007f] max-w-full">
-          {/* Top Bar */}
-          <div className="flex justify-between items-center bg-black px-3 py-1.5 border-2 border-white/20 mb-2.5 font-press-start text-[8px] sm:text-[9px] text-white">
-            <div className="flex items-center space-x-3">
-              <span className="text-[#ff007f]">HP: {'❤️'.repeat(Math.max(0, lives))}</span>
-              <span className="text-[#ffe600]">WAVE: {wave}</span>
+    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-8 select-none max-w-7xl mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        {/* Left Side: Title & Threat Dossier Panel */}
+        <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-2">
+          {/* Section Header */}
+          <div className="space-y-1.5 border-b-2 border-[#8c5835]/30 pb-3">
+            <div className="inline-block bg-[#fff8eb] border-2 border-[#8c5835] px-2.5 py-1 font-press-start text-[8px] sm:text-[9px] text-[#5c3a21] shadow-[2px_2px_0_0_rgba(0,0,0,0.25)]">
+              STAGE 04 // HARVEST MINI-GAME
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-[#00f3ff]">SCORE: {score}</span>
-              <span className="text-gray-400 hidden sm:inline">HI: {highScore}</span>
-            </div>
+            <h2 className="font-press-start text-xl sm:text-2xl text-[#fffdf5] uppercase drop-shadow-[2px_2px_0_#4a2e18] leading-tight">
+              HARVEST VALLEY DEFENDER
+            </h2>
+            <p className="font-mono text-xs text-[#faecd4] leading-relaxed drop-shadow-[1px_1px_0_#2c1808]">
+              Protect your crop fields from hungry weeds, crows, and garden bugs!
+            </p>
           </div>
 
-          {/* Game Canvas */}
-          <div className="relative border-2 border-white/30 overflow-hidden bg-black mx-auto">
-            <canvas
-              ref={canvasRef}
-              width={380}
-              height={360}
-              className="w-full max-w-[380px] h-[320px] sm:h-[360px] block"
-            />
-
-            {/* Overlays */}
-            {gameState === 'idle' && (
-              <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-4 text-white space-y-3">
-                <Gamepad2 className="w-10 h-10 text-[#00f3ff] animate-bounce" />
-                <h3 className="font-press-start text-xs sm:text-sm text-[#00f3ff]">
-                  CODE DEFENDER
-                </h3>
-                <p className="font-mono text-[11px] text-gray-300 max-w-xs leading-relaxed">
-                  Controls: <kbd className="bg-gray-800 px-1">←</kbd> <kbd className="bg-gray-800 px-1">→</kbd> or <kbd className="bg-gray-800 px-1">A</kbd> <kbd className="bg-gray-800 px-1">D</kbd> to Move, <kbd className="bg-gray-800 px-1">SPACE</kbd> to Shoot.
-                </p>
-                <PixelButton
-                  variant="primary"
-                  size="md"
-                  soundType="powerup"
-                  onClick={startGame}
-                  icon={<Play className="w-3.5 h-3.5" />}
-                >
-                  START GAME
-                </PixelButton>
-              </div>
-            )}
-
-            {gameState === 'gameover' && (
-              <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4 text-white space-y-3 animate-in fade-in duration-200">
-                <div className="font-press-start text-base sm:text-lg text-[#ff3838] animate-pulse">
-                  GAME OVER
+          {/* Enemy Pest Types */}
+          <PixelCard
+            title="PEST & WEED DOSSIER"
+            badge="TARGETS"
+            headerColor="wood"
+            borderColor="wood"
+          >
+            <div className="grid grid-cols-2 gap-2 font-mono text-xs text-[#362213]">
+              <div className="bg-[#faecd4] p-2 border border-[#8c5835]/30 flex items-center space-x-2">
+                <span className="text-xl">🌿</span>
+                <div>
+                  <div className="text-[#5a8740] font-bold">Wild Weed</div>
+                  <div className="text-[10px] text-[#785a44]">+50 G</div>
                 </div>
-                <div className="space-y-0.5 font-mono text-xs text-gray-300">
-                  <div>FINAL SCORE: <span className="text-[#ffe600] font-bold">{score}</span></div>
-                  <div>HIGH SCORE: <span className="text-[#00f3ff] font-bold">{highScore}</span></div>
-                </div>
-                <PixelButton
-                  variant="accent"
-                  size="md"
-                  soundType="powerup"
-                  onClick={startGame}
-                  icon={<RotateCcw className="w-3.5 h-3.5" />}
-                >
-                  PLAY AGAIN
-                </PixelButton>
               </div>
-            )}
-          </div>
-
-          {/* On-Screen Mobile Touch Controls */}
-          <div className="mt-3 flex items-center justify-between sm:hidden px-1">
-            <div className="flex space-x-2">
-              <button
-                onClick={handleTouchLeft}
-                className="w-10 h-10 bg-gray-900 border-2 border-white/40 text-white active:bg-[#00f3ff] active:text-black font-press-start text-xs flex items-center justify-center shadow-[2px_2px_0_0_#000]"
-              >
-                ◀
-              </button>
-              <button
-                onClick={handleTouchRight}
-                className="w-10 h-10 bg-gray-900 border-2 border-white/40 text-white active:bg-[#00f3ff] active:text-black font-press-start text-xs flex items-center justify-center shadow-[2px_2px_0_0_#000]"
-              >
-                ▶
-              </button>
+              <div className="bg-[#faecd4] p-2 border border-[#8c5835]/30 flex items-center space-x-2">
+                <span className="text-xl">🐦</span>
+                <div>
+                  <div className="text-[#8c5835] font-bold">Pasture Crow</div>
+                  <div className="text-[10px] text-[#785a44]">+80 G</div>
+                </div>
+              </div>
+              <div className="bg-[#faecd4] p-2 border border-[#8c5835]/30 flex items-center space-x-2">
+                <span className="text-xl">🧪</span>
+                <div>
+                  <div className="text-[#4a709c] font-bold">Acid Slime</div>
+                  <div className="text-[10px] text-[#785a44]">+100 G</div>
+                </div>
+              </div>
+              <div className="bg-[#faecd4] p-2 border border-[#8c5835]/30 flex items-center space-x-2">
+                <span className="text-xl">🪲</span>
+                <div>
+                  <div className="text-[#d64545] font-bold">Crop Beetle</div>
+                  <div className="text-[10px] text-[#785a44]">+200 G</div>
+                </div>
+              </div>
             </div>
-            <button
-              onClick={handleTouchShoot}
-              className="w-18 h-10 bg-[#ff007f] border-2 border-black text-white font-press-start text-[9px] flex items-center justify-center shadow-[2px_2px_0_0_#000] active:translate-y-0.5"
-            >
-              FIRE! 🔥
-            </button>
-          </div>
-        </div>
-      </div>
+          </PixelCard>
 
-        {/* Next Stage Navigation CTA */}
-        {onNavigateStage && (
-          <div className="flex justify-end pt-1">
+          {/* Next Stage Navigation CTA */}
+          {onNavigateStage && (
             <PixelButton
               variant="primary"
               size="md"
               soundType="jump"
               onClick={() => onNavigateStage(5)}
               icon={<ArrowRight className="w-3.5 h-3.5" />}
+              className="w-full justify-between"
             >
-              NEXT: QUEST LOGS (STAGE 05) ▶
+              <span>NEXT: TOWN LOGS (05)</span>
             </PixelButton>
+          )}
+        </div>
+
+        {/* Right Side: Arcade Cabinet Screen */}
+        <div className="lg:col-span-7 flex justify-center">
+          <div className="relative bg-[#3a2010] border-4 border-[#8c5835] p-3 sm:p-4 shadow-[6px_6px_0_0_rgba(0,0,0,0.45)] max-w-full">
+            {/* Top Bar */}
+            <div className="flex justify-between items-center bg-[#241308] px-3 py-1.5 border-2 border-[#8c5835] mb-2.5 font-press-start text-[8px] sm:text-[9px] text-[#fff8eb]">
+              <div className="flex items-center space-x-3">
+                <span className="text-[#ff7b90]">STAMINA: {'🍓'.repeat(Math.max(0, lives))}</span>
+                <span className="text-[#ffe082]">SEASON: {wave}</span>
+              </div>
+              <div className="flex items-center space-x-4">
+                <span className="text-[#a3c983]">GOLD: {score} G</span>
+                <span className="text-gray-400 hidden sm:inline">HI: {highScore}</span>
+              </div>
+            </div>
+
+            {/* Game Canvas */}
+            <div className="relative border-2 border-[#4a2e18] overflow-hidden bg-[#4a7536] mx-auto">
+              <canvas
+                ref={canvasRef}
+                width={380}
+                height={360}
+                className="w-full max-w-[380px] h-[300px] sm:h-[350px] block"
+              />
+
+              {gameState === 'idle' && (
+                <div className="absolute inset-0 bg-[#241308]/85 flex flex-col items-center justify-center p-4 text-[#fff8eb] space-y-3">
+                  <Gamepad2 className="w-10 h-10 text-[#ffe082] animate-bounce" />
+                  <h3 className="font-press-start text-xs sm:text-sm text-[#ffe082]">
+                    HARVEST DEFENDER
+                  </h3>
+                  <p className="font-mono text-[11px] text-[#faecd4] max-w-xs leading-relaxed text-center">
+                    Controls: <kbd className="bg-[#4a2e18] px-1 border border-[#8c5835]">←</kbd> <kbd className="bg-[#4a2e18] px-1 border border-[#8c5835]">→</kbd> to Move, <kbd className="bg-[#4a2e18] px-1 border border-[#8c5835]">SPACE</kbd> to Water.
+                  </p>
+                  <PixelButton
+                    variant="primary"
+                    size="md"
+                    soundType="powerup"
+                    onClick={startGame}
+                    icon={<Play className="w-3.5 h-3.5" />}
+                  >
+                    START HARVEST
+                  </PixelButton>
+                </div>
+              )}
+
+              {gameState === 'gameover' && (
+                <div className="absolute inset-0 bg-[#241308]/90 flex flex-col items-center justify-center p-4 text-[#fff8eb] space-y-3 animate-in fade-in duration-200">
+                  <div className="font-press-start text-base sm:text-lg text-[#ff7b90] animate-pulse">
+                    FARM EXHAUSTED
+                  </div>
+                  <div className="space-y-0.5 font-mono text-xs text-[#faecd4] text-center">
+                    <div>FINAL HARVEST: <span className="text-[#ffe082] font-bold">{score} G</span></div>
+                    <div>TOP RECORD: <span className="text-[#7cb359] font-bold">{highScore} G</span></div>
+                  </div>
+                  <PixelButton
+                    variant="accent"
+                    size="md"
+                    soundType="powerup"
+                    onClick={startGame}
+                    icon={<RotateCcw className="w-3.5 h-3.5" />}
+                  >
+                    HARVEST AGAIN
+                  </PixelButton>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Touch Controls */}
+            <div className="mt-3 flex items-center justify-between sm:hidden px-1">
+              <div className="flex space-x-2">
+                <button
+                  onClick={handleTouchLeft}
+                  className="w-10 h-10 bg-[#4a2e18] border-2 border-[#8c5835] text-[#fff8eb] active:bg-[#e69d24] active:text-black font-press-start text-xs flex items-center justify-center shadow-[2px_2px_0_0_#120803]"
+                >
+                  ◀
+                </button>
+                <button
+                  onClick={handleTouchRight}
+                  className="w-10 h-10 bg-[#4a2e18] border-2 border-[#8c5835] text-[#fff8eb] active:bg-[#e69d24] active:text-black font-press-start text-xs flex items-center justify-center shadow-[2px_2px_0_0_#120803]"
+                >
+                  ▶
+                </button>
+              </div>
+              <button
+                onClick={handleTouchShoot}
+                className="w-20 h-10 bg-[#e69d24] text-[#2c1808] border-2 border-[#4a2e18] font-press-start text-[9px] flex items-center justify-center shadow-[2px_2px_0_0_#120803] active:translate-y-0.5 font-bold"
+              >
+                WATER! 💧
+              </button>
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

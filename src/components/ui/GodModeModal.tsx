@@ -1,6 +1,7 @@
 import React from 'react';
-import { useAudio } from '../../context/AudioContext';
 import { PixelButton } from './PixelButton';
+import { useAudio } from '../../context/AudioContext';
+import { Sparkles, X, Sun } from 'lucide-react';
 
 interface GodModeModalProps {
   isOpen: boolean;
@@ -8,63 +9,66 @@ interface GodModeModalProps {
 }
 
 export const GodModeModal: React.FC<GodModeModalProps> = ({ isOpen, onClose }) => {
-  const { playClick } = useAudio();
+  const { playClick, playVictory } = useAudio();
 
   if (!isOpen) return null;
 
-  const handleClose = () => {
-    playClick();
-    onClose();
-  };
-
   return (
-    <div className="fixed inset-0 z-[10002] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in zoom-in-95 duration-200 select-none">
-      <div className="relative w-full max-w-lg bg-[#1a0733] border-4 border-[#ffe600] p-6 sm:p-8 text-center shadow-[0_0_35px_rgba(255,230,0,0.6)]">
-        {/* Header Ribbon */}
-        <div className="inline-block bg-[#ffe600] text-black font-press-start text-[10px] px-4 py-1.5 border-2 border-black -mt-12 mb-4 shadow-[3px_3px_0_0_#ff007f]">
-          ★ SECRET KONAMI CODE UNLOCKED ★
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs select-none animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-[#fff8eb] border-4 border-[#e69d24] shadow-[8px_8px_0_0_rgba(0,0,0,0.45)] text-[#362213] overflow-hidden text-center p-5 space-y-4">
+        {/* Close Button */}
+        <button
+          onClick={() => {
+            playClick();
+            onClose();
+          }}
+          className="absolute top-2 right-2 text-[#5c3a21] hover:text-black cursor-pointer p-1"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-        {/* Big Icon */}
-        <div className="w-20 h-20 mx-auto mb-4 bg-yellow-950/60 border-2 border-[#ffe600] flex items-center justify-center text-4xl shadow-[0_0_20px_#ffe600] animate-bounce">
-          👑
+        {/* Icon */}
+        <div className="w-16 h-16 bg-[#faecd4] border-4 border-[#e69d24] flex items-center justify-center mx-auto text-3xl shadow-[0_0_20px_rgba(230,157,36,0.5)] animate-bounce">
+          🌻
         </div>
 
         {/* Title */}
-        <h3 className="font-press-start text-base sm:text-xl text-[#ffe600] uppercase mb-2">
-          30 LIVES GOD MODE ACTIVATED!
-        </h3>
-
-        {/* Description */}
-        <p className="font-mono text-xs sm:text-sm text-gray-200 leading-relaxed mb-6">
-          Incredible! You remembered the legendary code <span className="text-[#00f3ff] font-bold">↑↑↓↓←→←→BA</span>. Your player stats have been boosted to maximum limit break!
-        </p>
-
-        {/* Stats Granted */}
-        <div className="grid grid-cols-3 gap-2 bg-black/60 p-3 border border-white/20 text-xs font-mono mb-6">
-          <div>
-            <div className="text-gray-400 text-[10px]">HP HEARTS</div>
-            <div className="text-[#ff007f] font-press-start text-xs mt-1">❤️❤️❤️ 99</div>
+        <div className="space-y-1">
+          <div className="font-press-start text-[9px] text-[#e69d24] tracking-wider uppercase flex items-center justify-center gap-1">
+            <Sun className="w-3.5 h-3.5 animate-spin text-[#e69d24]" />
+            <span>HARVEST GODDESS BLESSING</span>
           </div>
-          <div>
-            <div className="text-gray-400 text-[10px]">GOLD COINS</div>
-            <div className="text-[#ffe600] font-press-start text-xs mt-1">9,999</div>
-          </div>
-          <div>
-            <div className="text-gray-400 text-[10px]">ARCADE SCORE</div>
-            <div className="text-[#00f3ff] font-press-start text-xs mt-1">999,999</div>
-          </div>
+          <h2 className="font-press-start text-base sm:text-lg text-[#362213] drop-shadow-[1px_1px_0_#e69d24]">
+            ★ INFINITE STAMINA UNLOCKED ★
+          </h2>
         </div>
 
-        {/* Close Button */}
+        {/* Perks description */}
+        <div className="bg-[#faecd4] p-3 border-2 border-[#8c5835]/30 space-y-2 font-mono text-xs text-[#5c3a21] text-left">
+          <div className="flex items-center space-x-2 text-[#e69d24]">
+            <Sparkles className="w-4 h-4" />
+            <span className="font-bold">KONAMI BLESSING:</span>
+          </div>
+          <ul className="space-y-1 pl-4 list-disc text-[11px]">
+            <li>🍓 Infinite Power Berries (Max Stamina)</li>
+            <li>🪙 +1,000 Golden Coins (100,000 G)</li>
+            <li>✨ +9,999 Artisan EXP Buff</li>
+            <li>🏆 "Goddess Whisperer" Trophy Unlocked</li>
+          </ul>
+        </div>
+
         <PixelButton
-          variant="accent"
+          variant="primary"
           size="lg"
-          onClick={handleClose}
           soundType="powerup"
+          onClick={() => {
+            playVictory();
+            onClose();
+          }}
           className="w-full"
         >
-          CONTINUE ADVENTURE ⚔️
+          EMBRACE HARVEST BLESSING
         </PixelButton>
       </div>
     </div>

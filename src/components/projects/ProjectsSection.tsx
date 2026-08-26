@@ -5,7 +5,7 @@ import { PixelCard } from '../ui/PixelCard';
 import { PixelButton } from '../ui/PixelButton';
 import { useAudio } from '../../context/AudioContext';
 import { useGame } from '../../context/GameContext';
-import { ExternalLink, Eye, Skull, ArrowRight } from 'lucide-react';
+import { ExternalLink, Eye, ArrowRight, PackageCheck } from 'lucide-react';
 
 interface ProjectsSectionProps {
   onNavigateStage?: (stageIndex: number) => void;
@@ -24,132 +24,153 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onNavigateStag
   };
 
   return (
-    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-6xl mx-auto w-full">
-      <div className="space-y-6">
-        {/* Section Header */}
-        <div className="text-left space-y-2">
-          <div className="inline-block bg-black border-2 border-[#ffe600] px-3 py-1 font-press-start text-[9px] text-[#ffe600] shadow-[2px_2px_0_0_#ff007f]">
-            STAGE 03 // WORLD MAP & QUESTS
+    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-8 select-none max-w-7xl mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        {/* Left Side: Title & Harvest Telemetry Panel */}
+        <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-2">
+          {/* Section Header */}
+          <div className="space-y-1.5 border-b-2 border-[#8c5835]/30 pb-3">
+            <div className="inline-block bg-[#fff8eb] border-2 border-[#8c5835] px-2.5 py-1 font-press-start text-[8px] sm:text-[9px] text-[#5c3a21] shadow-[2px_2px_0_0_rgba(0,0,0,0.25)]">
+              STAGE 03 // SHIPPED PRODUCE
+            </div>
+            <h2 className="font-press-start text-xl sm:text-2xl text-[#fffdf5] uppercase drop-shadow-[2px_2px_0_#4a2e18] leading-tight">
+              SHIPPED PRODUCE & PROJECTS
+            </h2>
+            <p className="font-mono text-xs text-[#faecd4] leading-relaxed drop-shadow-[1px_1px_0_#2c1808]">
+              Completed production-grade applications engineered with modern web stacks.
+            </p>
           </div>
-          <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#ffe600]">
-            STAGE SELECT // FEATURED MISSIONS
-          </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl">
-            Completed boss raids and production-grade applications engineered with modern web stacks.
-          </p>
-        </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {PROJECTS_DATA.map((project) => (
-            <PixelCard
-              key={project.id}
-              title={`${project.stageNumber} // ${project.title}`}
-              badge={project.bossRank}
-              headerColor={
-                project.bossRank === 'Rank S+'
-                  ? 'pink'
-                  : project.bossRank === 'Rank S'
-                  ? 'cyan'
-                  : 'yellow'
-              }
-              borderColor={
-                project.bossRank === 'Rank S+'
-                  ? 'pink'
-                  : project.bossRank === 'Rank S'
-                  ? 'cyan'
-                  : 'yellow'
-              }
-              className="flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                {/* Project Visual / Thumbnail Canvas Banner */}
-                <div className="h-32 sm:h-36 bg-gradient-to-br from-[#1a0833] via-black to-[#0d031c] border-2 border-white/15 relative overflow-hidden flex items-center justify-center group">
-                  {/* Background grid */}
-                  <div className="absolute inset-0 retro-grid opacity-30" />
-                  
-                  {/* Large Icon */}
-                  <div className="text-5xl group-hover:scale-125 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,243,255,0.6)]">
-                    {project.image}
-                  </div>
-
-                  {/* Boss Defeated Banner */}
-                  <div className="absolute top-2 left-2 bg-black/80 border border-[#ff3838] px-2 py-0.5 font-press-start text-[7px] text-[#ff3838] flex items-center gap-1">
-                    <Skull className="w-2.5 h-2.5 text-[#ff3838]" />
-                    <span>BOSS: {project.bossName}</span>
-                  </div>
-
-                  {/* Stage Badge */}
-                  <div className="absolute bottom-2 right-2 bg-black/90 border border-[#ffe600] px-1.5 py-0.5 font-press-start text-[7px] text-[#ffe600]">
-                    {project.stageNumber}
-                  </div>
-                </div>
-
-                {/* Subtitle & Short Description */}
-                <div>
-                  <h4 className="font-press-start text-xs text-white truncate">
-                    {project.subtitle}
-                  </h4>
-                  <p className="font-mono text-xs text-gray-300 mt-1 leading-relaxed line-clamp-2">
-                    {project.description}
-                  </p>
-                </div>
-
-                {/* Tech Badges */}
-                <div className="flex flex-wrap gap-1">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-1.5 py-0.5 bg-black/70 border border-white/20 text-[9px] font-mono text-[#00f3ff]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+          {/* Shipping Bin Telemetry Box */}
+          <PixelCard
+            title="SHIPPING BIN TELEMETRY"
+            badge="CLEARED"
+            headerColor="wood"
+            borderColor="wood"
+          >
+            <div className="space-y-2 font-mono text-xs text-[#362213]">
+              <div className="flex justify-between items-center bg-[#faecd4] p-2 border border-[#8c5835]/30">
+                <span className="text-[#5c3a21]">PRODUCE SHIPPED:</span>
+                <span className="font-press-start text-[9px] text-[#5a8740]">4 / 4 CROPS</span>
               </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/10 mt-3">
-                <button
-                  onClick={() => handleInspect(project)}
-                  className="flex items-center space-x-1 font-press-start text-[8px] sm:text-[9px] text-[#ffe600] hover:text-white transition-colors cursor-pointer"
-                >
-                  <Eye className="w-3 h-3" />
-                  <span>INSPECT CARTRIDGE</span>
-                </button>
-
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => playLaser()}
-                >
-                  <PixelButton variant="primary" size="sm" icon={<ExternalLink className="w-3 h-3" />}>
-                    DEMO
-                  </PixelButton>
-                </a>
+              <div className="flex justify-between items-center bg-[#faecd4] p-2 border border-[#8c5835]/30">
+                <span className="text-[#5c3a21]">TOWN CHALLENGES:</span>
+                <span className="font-press-start text-[9px] text-[#8c5835]">4 CLEARED</span>
               </div>
-            </PixelCard>
-          ))}
-        </div>
+              <div className="flex justify-between items-center bg-[#faecd4] p-2 border border-[#8c5835]/30">
+                <span className="text-[#5c3a21]">AVERAGE QUALITY:</span>
+                <span className="font-press-start text-[9px] text-[#c48114]">RANK S+ GOLD</span>
+              </div>
+            </div>
+          </PixelCard>
 
-        {/* Next Stage Navigation CTA */}
-        {onNavigateStage && (
-          <div className="flex justify-end pt-2">
+          {/* Next Stage Navigation CTA */}
+          {onNavigateStage && (
             <PixelButton
               variant="accent"
               size="md"
               soundType="jump"
               onClick={() => onNavigateStage(4)}
               icon={<ArrowRight className="w-3.5 h-3.5" />}
+              className="w-full justify-between"
             >
-              NEXT: ARCADE MINI-GAME (STAGE 04) ▶
+              <span>NEXT: HARVEST GAME (04)</span>
             </PixelButton>
+          )}
+        </div>
+
+        {/* Right Side: Projects Grid */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {PROJECTS_DATA.map((project) => (
+              <PixelCard
+                key={project.id}
+                title={`${project.stageNumber} // ${project.title}`}
+                badge={project.bossRank}
+                headerColor={
+                  project.bossRank === 'Rank S+'
+                    ? 'yellow'
+                    : project.bossRank === 'Rank S'
+                    ? 'green'
+                    : 'wood'
+                }
+                borderColor={
+                  project.bossRank === 'Rank S+'
+                    ? 'yellow'
+                    : project.bossRank === 'Rank S'
+                    ? 'green'
+                    : 'wood'
+                }
+                className="flex flex-col justify-between"
+              >
+                <div className="space-y-2.5">
+                  {/* Thumbnail Banner */}
+                  <div className="h-28 bg-[#faecd4] border-2 border-[#8c5835]/40 relative overflow-hidden flex items-center justify-center group">
+                    <div className="text-4xl group-hover:scale-110 transition-transform duration-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]">
+                      {project.image}
+                    </div>
+
+                    <div className="absolute top-1.5 left-1.5 bg-[#fff8eb] border border-[#8c5835] px-1.5 py-0.5 font-press-start text-[7px] text-[#5c3a21] flex items-center gap-1">
+                      <PackageCheck className="w-2.5 h-2.5 text-[#5a8740]" />
+                      <span>{project.bossName}</span>
+                    </div>
+
+                    <div className="absolute bottom-1.5 right-1.5 bg-[#4a2e18] text-[#ffe082] px-1.5 py-0.5 font-press-start text-[7px]">
+                      {project.stageNumber}
+                    </div>
+                  </div>
+
+                  {/* Subtitle & Description */}
+                  <div>
+                    <h4 className="font-press-start text-[10px] text-[#362213] truncate">
+                      {project.subtitle}
+                    </h4>
+                    <p className="font-mono text-xs text-[#5c3a21] mt-1 leading-relaxed line-clamp-2">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  {/* Tech Tags */}
+                  <div className="flex flex-wrap gap-1">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-1.5 py-0.5 bg-[#faecd4] border border-[#8c5835]/40 text-[9px] font-mono text-[#4a2e18]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex items-center justify-between gap-2 pt-2.5 border-t border-[#8c5835]/20 mt-2.5">
+                  <button
+                    onClick={() => handleInspect(project)}
+                    className="flex items-center space-x-1 font-press-start text-[8px] text-[#8c5835] hover:text-[#5a8740] transition-colors cursor-pointer"
+                  >
+                    <Eye className="w-3 h-3" />
+                    <span>INSPECT BLUEPRINT</span>
+                  </button>
+
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => playLaser()}
+                  >
+                    <PixelButton variant="primary" size="sm" icon={<ExternalLink className="w-3 h-3" />}>
+                      DEMO
+                    </PixelButton>
+                  </a>
+                </div>
+              </PixelCard>
+            ))}
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Cartridge Modal */}
+      {/* Cartridge / Blueprint Inspection Modal */}
       <ProjectCartridgeModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

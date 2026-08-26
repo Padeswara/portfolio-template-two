@@ -2,7 +2,7 @@ import React from 'react';
 
 interface PixelBadgeProps {
   children: React.ReactNode;
-  variant?: 'cyan' | 'pink' | 'yellow' | 'green' | 'purple' | 'red' | 'gray';
+  variant?: 'cyan' | 'pink' | 'yellow' | 'green' | 'purple' | 'red' | 'gray' | 'wood';
   size?: 'sm' | 'md';
   icon?: React.ReactNode;
   className?: string;
@@ -10,24 +10,25 @@ interface PixelBadgeProps {
 
 export const PixelBadge: React.FC<PixelBadgeProps> = ({
   children,
-  variant = 'cyan',
+  variant = 'green',
   size = 'md',
   icon,
   className = '',
 }) => {
   const variantStyles = {
-    cyan: 'bg-[#00f3ff]/15 text-[#00f3ff] border-[#00f3ff]',
-    pink: 'bg-[#ff007f]/15 text-[#ff007f] border-[#ff007f]',
-    yellow: 'bg-[#ffe600]/15 text-[#ffe600] border-[#ffe600]',
-    green: 'bg-[#39ff14]/15 text-[#39ff14] border-[#39ff14]',
-    purple: 'bg-[#aa00ff]/15 text-[#aa00ff] border-[#aa00ff]',
-    red: 'bg-[#ff3838]/15 text-[#ff3838] border-[#ff3838]',
-    gray: 'bg-white/10 text-white/80 border-white/30',
+    green: 'bg-[#5a8740]/20 text-[#2c471c] border-[#5a8740]',
+    yellow: 'bg-[#e69d24]/20 text-[#613e07] border-[#e69d24]',
+    pink: 'bg-[#d64545]/20 text-[#6e1818] border-[#d64545]',
+    red: 'bg-[#c0392b]/20 text-[#54140c] border-[#c0392b]',
+    cyan: 'bg-[#5f9ea0]/20 text-[#1f4243] border-[#5f9ea0]',
+    purple: 'bg-[#7b5294]/20 text-[#361947] border-[#7b5294]',
+    wood: 'bg-[#8c5835]/20 text-[#4a2e18] border-[#8c5835]',
+    gray: 'bg-black/10 text-[#4a2e18] border-[#4a2e18]/30',
   };
 
   const sizeStyles = {
-    sm: 'text-[9px] px-1.5 py-0.5 font-press-start gap-1 border',
-    md: 'text-[11px] px-2.5 py-1 font-press-start gap-1.5 border-2',
+    sm: 'text-[8px] px-1.5 py-0.5 font-press-start gap-1 border',
+    md: 'text-[9px] sm:text-[10px] px-2 py-0.5 font-press-start gap-1.5 border-2',
   };
 
   return (
@@ -39,4 +40,3 @@ export const PixelBadge: React.FC<PixelBadgeProps> = ({
     </span>
   );
 };
-

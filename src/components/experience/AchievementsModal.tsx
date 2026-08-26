@@ -2,7 +2,8 @@ import React from 'react';
 import { ACHIEVEMENTS } from '../../data/achievementsData';
 import { useGame } from '../../context/GameContext';
 import { useAudio } from '../../context/AudioContext';
-import { X, Lock, CheckCircle2 } from 'lucide-react';
+import { PixelBadge } from '../ui/PixelBadge';
+import { X, Lock, Trophy } from 'lucide-react';
 
 interface AchievementsModalProps {
   isOpen: boolean;
@@ -15,114 +16,71 @@ export const AchievementsModal: React.FC<AchievementsModalProps> = ({ isOpen, on
 
   if (!isOpen) return null;
 
-  const total = ACHIEVEMENTS.length;
-  const unlockedCount = unlockedAchievements.length;
-  const progressPercent = Math.floor((unlockedCount / total) * 100);
-
-  const handleClose = () => {
-    playClick();
-    onClose();
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150 select-none">
-      <div className="relative w-full max-w-2xl bg-[#140828] border-4 border-[#ffe600] shadow-[10px_10px_0_0_#000] text-white p-5 sm:p-7 max-h-[85vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b-2 border-[#ffe600]/40 pb-4 mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-yellow-950/60 border-2 border-[#ffe600] flex items-center justify-center text-xl">
-              🏆
-            </div>
-            <div>
-              <h3 className="font-press-start text-sm sm:text-base text-[#ffe600]">
-                TROPHY & ACHIEVEMENTS ROOM
-              </h3>
-              <p className="font-mono text-xs text-gray-400 mt-0.5">
-                Unlock trophies by interacting with secret quests and easter eggs!
-              </p>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs select-none animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl bg-[#fff8eb] border-4 border-[#4a2e18] shadow-[6px_6px_0_0_rgba(0,0,0,0.45)] text-[#362213] overflow-hidden">
+        {/* Top Header */}
+        <div className="bg-[#8c5835] text-[#fff8eb] px-4 py-2.5 flex items-center justify-between border-b-2 border-[#4a2e18] font-press-start text-[9px] sm:text-[10px]">
+          <div className="flex items-center space-x-2">
+            <Trophy className="w-4 h-4 text-[#ffe082]" />
+            <span>TOWN TROPHY SHED ({unlockedAchievements.length}/{ACHIEVEMENTS.length})</span>
           </div>
           <button
-            onClick={handleClose}
-            className="p-1 text-gray-400 hover:text-[#ff007f] hover:bg-white/10 border border-white/20 transition-colors"
-            aria-label="Close modal"
+            onClick={() => {
+              playClick();
+              onClose();
+            }}
+            className="p-1 hover:bg-[#4a2e18] text-[#fff8eb] cursor-pointer"
+            aria-label="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Progress Overview Bar */}
-        <div className="bg-black/60 border border-white/10 p-3 mb-5 space-y-2">
-          <div className="flex justify-between items-center text-xs font-press-start">
-            <span className="text-gray-300">COMPLETION:</span>
-            <span className="text-[#39ff14]">
-              {unlockedCount} / {total} ({progressPercent}%)
-            </span>
-          </div>
-          <div className="w-full h-3 bg-gray-900 border border-white/20 p-0.5">
-            <div
-              className="h-full bg-gradient-to-r from-[#00f3ff] via-[#ffe600] to-[#39ff14] transition-all duration-500"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        </div>
+        {/* List of Badges */}
+        <div className="p-4 sm:p-5 space-y-3 max-h-[70vh] overflow-y-auto">
+          <p className="font-mono text-xs text-[#5c3a21]">
+            Unlock village secrets by interacting with the farm tools, listening to BGM, watering crops, and casting abilities!
+          </p>
 
-        {/* Achievements Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {ACHIEVEMENTS.map((ach) => {
-            const isUnlocked = unlockedAchievements.includes(ach.id);
-            return (
-              <div
-                key={ach.id}
-                className={`p-3 border-2 flex items-start space-x-3 transition-all ${
-                  isUnlocked
-                    ? 'bg-[#1e0d3b] border-[#ffe600] shadow-[3px_3px_0_0_#000]'
-                    : 'bg-black/40 border-gray-800 opacity-60'
-                }`}
-              >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {ACHIEVEMENTS.map((ach) => {
+              const isUnlocked = unlockedAchievements.includes(ach.id);
+              return (
                 <div
-                  className={`w-10 h-10 flex items-center justify-center text-xl shrink-0 border ${
+                  key={ach.id}
+                  className={`p-3 border-2 transition-all flex items-start space-x-3 ${
                     isUnlocked
-                      ? 'bg-yellow-950/40 border-[#ffe600]'
-                      : 'bg-gray-900 border-gray-700'
+                      ? 'bg-[#faecd4] border-[#e69d24] shadow-[2px_2px_0_0_rgba(0,0,0,0.15)]'
+                      : 'bg-[#fff8eb]/50 border-gray-300 opacity-60'
                   }`}
                 >
-                  {isUnlocked ? ach.icon : <Lock className="w-4 h-4 text-gray-500" />}
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4
-                      className={`font-press-start text-[9px] truncate ${
-                        isUnlocked ? 'text-[#ffe600]' : 'text-gray-400'
-                      }`}
-                    >
-                      {ach.title}
-                    </h4>
-                    {isUnlocked && (
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#39ff14] shrink-0 ml-1" />
-                    )}
+                  <div className="w-10 h-10 bg-[#fff8eb] border border-[#8c5835]/40 flex items-center justify-center text-xl shrink-0">
+                    {isUnlocked ? ach.icon : <Lock className="w-4 h-4 text-gray-500" />}
                   </div>
 
-                  <p className="font-mono text-[11px] text-gray-300 mt-1 leading-snug">
-                    {isUnlocked ? ach.description : '??? (Hidden Quest)'}
-                  </p>
-
-                  <div className="mt-1.5">
-                    <span
-                      className={`text-[8px] font-press-start px-1.5 py-0.5 border ${
-                        isUnlocked
-                          ? 'border-[#39ff14] text-[#39ff14] bg-[#39ff14]/10'
-                          : 'border-gray-700 text-gray-500'
-                      }`}
-                    >
-                      +{ach.expReward} EXP
-                    </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <h4 className="font-press-start text-[9px] text-[#362213] truncate">
+                        {ach.title}
+                      </h4>
+                      {isUnlocked && (
+                        <PixelBadge variant="green" size="sm">
+                          UNLOCKED
+                        </PixelBadge>
+                      )}
+                    </div>
+                    <p className="font-mono text-[11px] text-[#5c3a21] mt-0.5 leading-snug">
+                      {ach.description}
+                    </p>
+                    <div className="mt-1 font-press-start text-[7px] text-[#e69d24]">
+                      REWARD: +{ach.rewardExp} EXP / +{ach.rewardCoins * 100} G
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

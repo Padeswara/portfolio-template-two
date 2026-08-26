@@ -1,60 +1,43 @@
 import React from 'react';
 import { useGame } from '../../context/GameContext';
-import { useAudio } from '../../context/AudioContext';
-import { Trophy, X } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 
 export const Toast: React.FC = () => {
   const { recentAchievement, dismissToast } = useGame();
-  const { playClick } = useAudio();
 
   if (!recentAchievement) return null;
 
-  const handleDismiss = () => {
-    playClick();
-    dismissToast();
-  };
-
   return (
-    <div className="fixed bottom-6 right-6 z-[10001] max-w-sm w-full animate-bounce duration-500">
-      <div className="bg-[#15082a] border-4 border-[#ffe600] p-4 shadow-[8px_8px_0_0_#000] relative">
-        {/* Top bar */}
-        <div className="flex items-center justify-between border-b-2 border-[#ffe600]/40 pb-2 mb-2">
-          <div className="flex items-center space-x-2">
-            <Trophy className="w-4 h-4 text-[#ffe600] animate-spin" />
-            <span className="font-press-start text-[10px] text-[#ffe600] tracking-wider">
-              ACHIEVEMENT UNLOCKED!
-            </span>
-          </div>
-          <button
-            onClick={handleDismiss}
-            className="text-white hover:text-[#ff007f] p-0.5"
-            aria-label="Dismiss notification"
-          >
-            <X className="w-4 h-4" />
-          </button>
+    <div className="fixed bottom-16 right-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-200 select-none max-w-xs sm:max-w-sm">
+      <div className="bg-[#fff8eb] border-4 border-[#e69d24] p-3 shadow-[6px_6px_0_0_rgba(0,0,0,0.4)] flex items-start space-x-3 text-[#362213] relative">
+        {/* Close */}
+        <button
+          onClick={dismissToast}
+          className="absolute top-1 right-1 text-[#8c5835] hover:text-[#362213] p-0.5"
+          aria-label="Dismiss toast"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
+
+        {/* Icon */}
+        <div className="w-10 h-10 bg-[#faecd4] border-2 border-[#8c5835] flex items-center justify-center text-xl shrink-0 shadow-[2px_2px_0_0_rgba(0,0,0,0.15)]">
+          {recentAchievement.icon}
         </div>
 
-        {/* Content */}
-        <div className="flex items-start space-x-3">
-          <div className="text-3xl bg-black/50 p-2 border-2 border-white/20 shrink-0">
-            {recentAchievement.icon}
+        {/* Text */}
+        <div className="min-w-0 flex-1 pr-3">
+          <div className="flex items-center space-x-1 font-press-start text-[8px] text-[#e69d24]">
+            <Sparkles className="w-2.5 h-2.5 animate-spin" />
+            <span>HARVEST BADGE UNLOCKED!</span>
           </div>
-          <div className="space-y-1 min-w-0">
-            <h4 className="font-press-start text-xs text-white truncate">
-              {recentAchievement.title}
-            </h4>
-            <p className="text-xs text-gray-300 font-mono line-clamp-2">
-              {recentAchievement.description}
-            </p>
-            <div className="pt-1">
-              <span className="inline-block bg-[#39ff14]/20 border border-[#39ff14] text-[#39ff14] font-press-start text-[8px] px-1.5 py-0.5">
-                +{recentAchievement.expReward} EXP REWARD
-              </span>
-            </div>
-          </div>
+          <h4 className="font-press-start text-[9px] sm:text-[10px] text-[#362213] mt-0.5 truncate">
+            {recentAchievement.title}
+          </h4>
+          <p className="font-mono text-[11px] text-[#5c3a21] mt-0.5 line-clamp-2">
+            {recentAchievement.description}
+          </p>
         </div>
       </div>
     </div>
   );
 };
-

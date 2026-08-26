@@ -1,11 +1,11 @@
-// Web Audio API 8-Bit Chiptune Sound Synthesizer
-// Completely self-contained, 0 external audio dependencies!
+// Web Audio API Soft Harvest Moon Chiptune Sound Synthesizer
+// 0 external audio dependencies!
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
-  private sfxVolume: number = 0.3;
-  private bgmVolume: number = 0.15;
+  private sfxVolume: number = 0.25;
+  private bgmVolume: number = 0.12;
   private bgmInterval: number | null = null;
   private isBgmPlaying: boolean = false;
 
@@ -23,7 +23,7 @@ class SoundEngine {
     this.isMuted = muted;
     if (muted && this.isBgmPlaying) {
       this.stopBGM();
-      this.isBgmPlaying = true; // remember preference
+      this.isBgmPlaying = true;
     } else if (!muted && this.isBgmPlaying) {
       this.startBGM();
     }
@@ -37,7 +37,7 @@ class SoundEngine {
     this.sfxVolume = Math.max(0, Math.min(1, vol));
   }
 
-  // 1. Menu Click / Select Sound (Retro blip)
+  // 1. Soft Wooden Click (Menu select)
   public playClick() {
     if (this.isMuted) return;
     this.initContext();
@@ -46,21 +46,21 @@ class SoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.05);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.04);
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.4, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.35, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.045);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.06);
+    osc.stop(this.ctx.currentTime + 0.05);
   }
 
-  // 2. Coin Pickup Sound (Classic Mario/Arcade B5 -> E6)
+  // 2. Gold / Harvest Coin (Ka-ching chime)
   public playCoin() {
     if (this.isMuted) return;
     this.initContext();
@@ -70,22 +70,22 @@ class SoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'square';
+    osc.type = 'sine';
     osc.frequency.setValueAtTime(987.77, now); // B5
-    osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+    osc.frequency.setValueAtTime(1318.51, now + 0.07); // E6
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.5, now);
-    gain.gain.setValueAtTime(this.sfxVolume * 0.5, now + 0.08);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.45, now);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.45, now + 0.07);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.36);
+    osc.stop(now + 0.29);
   }
 
-  // 3. Laser / Shoot Sound
+  // 3. Water / Seed Shoot Sound (Soft blip)
   public playLaser() {
     if (this.isMuted) return;
     this.initContext();
@@ -95,21 +95,21 @@ class SoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(900, now);
-    osc.frequency.exponentialRampToValueAtTime(120, now + 0.15);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(650, now);
+    osc.frequency.exponentialRampToValueAtTime(220, now + 0.12);
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.4, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.16);
+    osc.stop(now + 0.13);
   }
 
-  // 4. Jump Sound
+  // 4. Farmer Hop / Jump
   public playJump() {
     if (this.isMuted) return;
     this.initContext();
@@ -119,27 +119,27 @@ class SoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(150, now);
-    osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(260, now);
+    osc.frequency.exponentialRampToValueAtTime(540, now + 0.12);
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.4, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.16);
+    osc.stop(now + 0.13);
   }
 
-  // 5. Power Up / Level Up Sound (Chime Arpeggio)
+  // 5. Crop Harvest / Power Up (Warm Marimba Chime)
   public playPowerUp() {
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
 
-    const notes = [330, 392, 659, 523, 587, 784]; // E4, G4, E5, C5, D5, G5
+    const notes = [392, 523.25, 659.25, 783.99]; // G4, C5, E5, G5
     const now = this.ctx.currentTime;
 
     notes.forEach((freq, idx) => {
@@ -148,20 +148,20 @@ class SoundEngine {
       const gain = this.ctx.createGain();
 
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+      osc.frequency.setValueAtTime(freq, now + idx * 0.05);
 
-      gain.gain.setValueAtTime(this.sfxVolume * 0.4, now + idx * 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.12);
+      gain.gain.setValueAtTime(this.sfxVolume * 0.3, now + idx * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.15);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
-      osc.start(now + idx * 0.06);
-      osc.stop(now + idx * 0.06 + 0.13);
+      osc.start(now + idx * 0.05);
+      osc.stop(now + idx * 0.05 + 0.16);
     });
   }
 
-  // 6. Hit / Damage / Bug Smash Sound
+  // 6. Weed Cut / Tool Hit
   public playHit() {
     if (this.isMuted) return;
     this.initContext();
@@ -172,26 +172,26 @@ class SoundEngine {
     const gain = this.ctx.createGain();
 
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(220, now);
-    osc.frequency.exponentialRampToValueAtTime(40, now + 0.12);
+    osc.frequency.setValueAtTime(300, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.09);
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.6, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.13);
+    osc.stop(now + 0.1);
   }
 
-  // 7. Explosion Sound (Noise synthesized)
+  // 7. Pest Clear / Explosion (Soft pop)
   public playExplosion() {
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
 
-    const bufferSize = this.ctx.sampleRate * 0.25;
+    const bufferSize = this.ctx.sampleRate * 0.18;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const output = buffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
@@ -203,12 +203,12 @@ class SoundEngine {
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.25);
+    filter.frequency.setValueAtTime(600, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.18);
 
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(this.sfxVolume * 0.7, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.4, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
 
     whiteNoise.connect(filter);
     filter.connect(gain);
@@ -217,22 +217,17 @@ class SoundEngine {
     whiteNoise.start();
   }
 
-  // 8. Victory Fanfare (Trophy / Complete Quest)
+  // 8. Festival Victory Fanfare
   public playVictory() {
     if (this.isMuted) return;
     this.initContext();
     if (!this.ctx) return;
 
     const melody = [
-      { f: 523.25, d: 0.12 }, // C5
-      { f: 523.25, d: 0.12 }, // C5
-      { f: 523.25, d: 0.12 }, // C5
-      { f: 523.25, d: 0.28 }, // C5
-      { f: 415.30, d: 0.28 }, // G#4
-      { f: 466.16, d: 0.28 }, // A#4
-      { f: 523.25, d: 0.20 }, // C5
-      { f: 466.16, d: 0.10 }, // A#4
-      { f: 523.25, d: 0.60 }, // C5
+      { f: 523.25, d: 0.10 }, // C5
+      { f: 659.25, d: 0.10 }, // E5
+      { f: 783.99, d: 0.10 }, // G5
+      { f: 1046.50, d: 0.25 }, // C6
     ];
 
     let timeOffset = 0;
@@ -243,10 +238,47 @@ class SoundEngine {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
-      osc.type = 'square';
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(note.f, now + timeOffset);
 
       gain.gain.setValueAtTime(this.sfxVolume * 0.35, now + timeOffset);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + timeOffset + note.d);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now + timeOffset);
+      osc.stop(now + timeOffset + note.d + 0.02);
+
+      timeOffset += note.d + 0.02;
+    });
+  }
+
+  // 8b. Faint / Exhausted Sound
+  public playGameOver() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const sadMelody = [
+      { f: 392.00, d: 0.15 }, // G4
+      { f: 349.23, d: 0.15 }, // F4
+      { f: 329.63, d: 0.15 }, // E4
+      { f: 261.63, d: 0.35 }, // C4
+    ];
+
+    let timeOffset = 0;
+    const now = this.ctx.currentTime;
+
+    sadMelody.forEach((note) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(note.f, now + timeOffset);
+
+      gain.gain.setValueAtTime(this.sfxVolume * 0.25, now + timeOffset);
       gain.gain.exponentialRampToValueAtTime(0.001, now + timeOffset + note.d);
 
       osc.connect(gain);
@@ -259,44 +291,7 @@ class SoundEngine {
     });
   }
 
-  // 8b. Game Over Sound
-  public playGameOver() {
-    if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
-
-    const sadMelody = [
-      { f: 293.66, d: 0.18 }, // D4
-      { f: 277.18, d: 0.18 }, // C#4
-      { f: 261.63, d: 0.18 }, // C4
-      { f: 246.94, d: 0.45 }, // B3
-    ];
-
-    let timeOffset = 0;
-    const now = this.ctx.currentTime;
-
-    sadMelody.forEach((note) => {
-      if (!this.ctx) return;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(note.f, now + timeOffset);
-
-      gain.gain.setValueAtTime(this.sfxVolume * 0.3, now + timeOffset);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + timeOffset + note.d);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(now + timeOffset);
-      osc.stop(now + timeOffset + note.d + 0.02);
-
-      timeOffset += note.d + 0.04;
-    });
-  }
-
-  // 9. Typewriter Dialog Blip
+  // 9. Typewriter Dialogue Blip (Gentle wood click)
   public playTypewriter() {
     if (this.isMuted) return;
     this.initContext();
@@ -305,21 +300,21 @@ class SoundEngine {
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
 
-    osc.type = 'sine';
-    const randFreq = 600 + Math.random() * 200;
+    osc.type = 'triangle';
+    const randFreq = 480 + Math.random() * 80;
     osc.frequency.setValueAtTime(randFreq, this.ctx.currentTime);
 
-    gain.gain.setValueAtTime(this.sfxVolume * 0.15, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.03);
+    gain.gain.setValueAtTime(this.sfxVolume * 0.1, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.025);
 
     osc.connect(gain);
     gain.connect(this.ctx.destination);
 
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.035);
+    osc.stop(this.ctx.currentTime + 0.03);
   }
 
-  // 10. Background Chiptune Generator (Ambient 8-Bit Melody)
+  // 10. Cozy Harvest Moon Pastoral BGM
   public toggleBGM() {
     if (this.isBgmPlaying) {
       this.stopBGM();
@@ -343,62 +338,40 @@ class SoundEngine {
     this.initContext();
     if (!this.ctx || this.isMuted) return;
 
-    // Chiptune pentatonic progression sequence
-    const chords = [
-      [261.63, 329.63, 392.00, 523.25], // C Major
-      [220.00, 261.63, 329.63, 440.00], // A Minor
-      [174.61, 220.00, 261.63, 349.23], // F Major
-      [196.00, 246.94, 293.66, 392.00], // G Major
+    // Upbeat gentle Harvest Moon town progression (C -> G/B -> Am -> F)
+    const melodyPattern = [
+      523.25, 659.25, 783.99, 659.25, // C5, E5, G5, E5
+      493.88, 587.33, 783.99, 587.33, // B4, D5, G5, D5
+      440.00, 523.25, 659.25, 523.25, // A4, C5, E5, C5
+      349.23, 440.00, 523.25, 440.00, // F4, A4, C5, A4
     ];
 
-    let chordIndex = 0;
     let noteIndex = 0;
 
-    const playNextChiptuneTick = () => {
+    const playNextTick = () => {
       if (!this.ctx || !this.isBgmPlaying || this.isMuted) return;
 
-      const currentChord = chords[chordIndex];
-      const freq = currentChord[noteIndex % currentChord.length];
+      const freq = melodyPattern[noteIndex % melodyPattern.length];
 
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
-      osc.type = 'triangle';
+      osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
 
-      gain.gain.setValueAtTime(this.bgmVolume * 0.25, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(this.bgmVolume * 0.22, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start();
-      osc.stop(this.ctx.currentTime + 0.19);
+      osc.stop(this.ctx.currentTime + 0.21);
 
-      // Bass note on chord changes
-      if (noteIndex === 0) {
-        const bassOsc = this.ctx.createOscillator();
-        const bassGain = this.ctx.createGain();
-        bassOsc.type = 'square';
-        bassOsc.frequency.setValueAtTime(currentChord[0] / 2, this.ctx.currentTime);
-        bassGain.gain.setValueAtTime(this.bgmVolume * 0.2, this.ctx.currentTime);
-        bassGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
-
-        bassOsc.connect(bassGain);
-        bassGain.connect(this.ctx.destination);
-
-        bassOsc.start();
-        bassOsc.stop(this.ctx.currentTime + 0.42);
-      }
-
-      noteIndex++;
-      if (noteIndex >= currentChord.length * 2) {
-        noteIndex = 0;
-        chordIndex = (chordIndex + 1) % chords.length;
-      }
+      noteIndex = (noteIndex + 1) % melodyPattern.length;
     };
 
-    this.bgmInterval = window.setInterval(playNextChiptuneTick, 200);
+    this.bgmInterval = window.setInterval(playNextTick, 240);
   }
 
   public stopBGM() {

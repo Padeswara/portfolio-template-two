@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type RetroTheme = 'arcade' | 'gameboy' | 'nes' | 'dos';
+export type RetroTheme = 'spring' | 'autumn' | 'winter' | 'night';
 
 interface ThemeContextType {
   theme: RetroTheme;
@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<RetroTheme>(() => {
     const saved = localStorage.getItem('retro_theme');
-    return (saved as RetroTheme) || 'arcade';
+    return (saved as RetroTheme) || 'spring';
   });
 
   const [crtEnabled, setCrtEnabled] = useState<boolean>(() => {
@@ -26,7 +26,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const [flickerEnabled, setFlickerEnabled] = useState<boolean>(() => {
     const saved = localStorage.getItem('retro_flicker_enabled');
-    return saved !== null ? JSON.parse(saved) : true;
+    return saved !== null ? JSON.parse(saved) : false;
   });
 
   useEffect(() => {
@@ -77,4 +77,3 @@ export const useTheme = () => {
   }
   return context;
 };
-

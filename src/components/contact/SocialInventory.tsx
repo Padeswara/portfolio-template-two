@@ -1,52 +1,53 @@
 import React from 'react';
 import { SOCIAL_LINKS } from '../../data/portfolioData';
+import { PixelCard } from '../ui/PixelCard';
 import { useAudio } from '../../context/AudioContext';
-import { useGame } from '../../context/GameContext';
 import { ExternalLink } from 'lucide-react';
 
 export const SocialInventory: React.FC = () => {
-  const { playCoin } = useAudio();
-  const { addCoins } = useGame();
-
-  const handleLinkClick = () => {
-    playCoin();
-    addCoins(1);
-  };
+  const { playClick, playLaser } = useAudio();
 
   return (
-    <div className="space-y-4">
-      <div className="font-press-start text-[10px] text-[#ffe600] tracking-wider">
-        COMMUNICATION BEACONS // SOCIAL LOOT
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {SOCIAL_LINKS.map((link) => (
+    <PixelCard
+      title="COURIER BEACONS // SOCIALS"
+      badge="CONNECTED"
+      headerColor="wood"
+      borderColor="wood"
+    >
+      <div className="space-y-2">
+        {SOCIAL_LINKS.map((item) => (
           <a
-            key={link.name}
-            href={link.url}
+            key={item.name}
+            href={item.url}
             target="_blank"
             rel="noreferrer"
-            onClick={handleLinkClick}
-            className="bg-[#15082a] border-2 border-white/20 p-3 hover:border-[#00f3ff] hover:bg-[#1f0d3d] hover:-translate-y-1 transition-all duration-150 shadow-[3px_3px_0_0_#000] flex items-center justify-between group"
+            onClick={() => {
+              playClick();
+              playLaser();
+            }}
+            className="flex items-center justify-between p-2 bg-[#faecd4] border border-[#8c5835]/30 hover:border-[#e69d24] hover:bg-[#fff8eb] transition-all group cursor-pointer"
           >
-            <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 bg-black/60 border border-white/20 flex items-center justify-center text-lg shrink-0 group-hover:border-[#00f3ff]">
-                {link.icon}
-              </div>
-              <div className="min-w-0">
-                <div className="font-press-start text-[9px] text-white group-hover:text-[#00f3ff] transition-colors truncate">
-                  {link.name}
+            <div className="flex items-center space-x-2.5">
+              <span className="text-lg">{item.icon}</span>
+              <div>
+                <div className="font-press-start text-[8px] sm:text-[9px] text-[#362213] group-hover:text-[#5a8740] transition-colors">
+                  {item.name}
                 </div>
-                <div className="font-mono text-[11px] text-gray-400 truncate">
-                  {link.handle}
+                <div className="font-mono text-[10px] text-[#785a44]">
+                  {item.handle}
                 </div>
               </div>
             </div>
 
-            <ExternalLink className="w-3.5 h-3.5 text-gray-500 group-hover:text-[#00f3ff] shrink-0" />
+            <div className="flex items-center space-x-1.5">
+              <span className="px-1.5 py-0.5 bg-[#8c5835] text-[#fff8eb] text-[7px] font-press-start">
+                {item.badge}
+              </span>
+              <ExternalLink className="w-3.5 h-3.5 text-[#8c5835] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
           </a>
         ))}
       </div>
-    </div>
+    </PixelCard>
   );
 };

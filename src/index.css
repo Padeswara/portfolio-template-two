@@ -7,65 +7,80 @@
   --font-pixel: "Pixelify Sans", sans-serif;
   --font-tech: "Chakra Petch", sans-serif;
 
-  --color-neon-cyan: #00f3ff;
-  --color-neon-pink: #ff007f;
-  --color-neon-purple: #aa00ff;
-  --color-neon-yellow: #ffe600;
-  --color-neon-green: #39ff14;
-  --color-neon-orange: #ff6600;
-
-  --color-retro-bg: #090314;
-  --color-retro-card: #15092a;
-  --color-retro-card-border: #3b1968;
+  --color-farm-wood: #5c3a21;
+  --color-farm-wood-light: #8c5835;
+  --color-farm-cream: #fff8eb;
+  --color-farm-parchment: #faecd4;
+  --color-farm-green: #5a8740;
+  --color-farm-green-light: #7cb359;
+  --color-farm-gold: #e6a122;
+  --color-farm-berry: #d64545;
+  --color-farm-sky: #70b8d6;
 }
 
-/* Custom Pixel & CRT Classes */
+/* Soft Harvest Moon Theme Palettes */
 :root {
-  --theme-bg: #090314;
-  --theme-card: #140828;
-  --theme-card-hover: #1f0d3d;
-  --theme-border: #ff007f;
-  --theme-primary: #00f3ff;
-  --theme-secondary: #ff007f;
-  --theme-accent: #ffe600;
-  --theme-text: #ffffff;
-  --theme-text-muted: #a39bc0;
+  --theme-bg: #4a7536; /* Lush Spring Grass */
+  --theme-bg-pattern: #436a31;
+  --theme-card: #fdf5e6; /* Warm Cream Parchment */
+  --theme-card-header: #8c5835; /* Warm Cedar Wood */
+  --theme-card-header-text: #fffdf5;
+  --theme-border: #4a2e18; /* Rich Timber Dark Brown */
+  --theme-primary: #e69d24; /* Golden Sunlight / Honey */
+  --theme-primary-hover: #f5b33d;
+  --theme-secondary: #d64d4d; /* Strawberry / Power Berry Red */
+  --theme-accent: #659a45; /* Soft Leaf Green */
+  --theme-text: #362213; /* Deep Earth Brown for high contrast readability */
+  --theme-text-muted: #785a44;
+  --theme-hud: #2d1b0d;
 }
 
-[data-theme="gameboy"] {
-  --theme-bg: #8bac0f;
-  --theme-card: #9bbc0f;
-  --theme-card-hover: #a8ca1b;
-  --theme-border: #0f380f;
-  --theme-primary: #0f380f;
-  --theme-secondary: #306230;
-  --theme-accent: #0f380f;
-  --theme-text: #0f380f;
-  --theme-text-muted: #306230;
+[data-theme="autumn"] {
+  --theme-bg: #824726; /* Warm Autumn Pasture */
+  --theme-bg-pattern: #733c1d;
+  --theme-card: #fff3e0;
+  --theme-card-header: #994d1c;
+  --theme-card-header-text: #fffdf5;
+  --theme-border: #4a210d;
+  --theme-primary: #e67e22;
+  --theme-primary-hover: #f39c12;
+  --theme-secondary: #c0392b;
+  --theme-accent: #d35400;
+  --theme-text: #3d1c0a;
+  --theme-text-muted: #824b2b;
+  --theme-hud: #301406;
 }
 
-[data-theme="nes"] {
-  --theme-bg: #0c1021;
-  --theme-card: #182245;
-  --theme-card-hover: #223061;
-  --theme-border: #e84118;
-  --theme-primary: #fbc531;
-  --theme-secondary: #e84118;
-  --theme-accent: #00a8ff;
-  --theme-text: #f5f6fa;
-  --theme-text-muted: #95a5a6;
+[data-theme="winter"] {
+  --theme-bg: #4f7082; /* Snowy Winter Pasture */
+  --theme-bg-pattern: #436173;
+  --theme-card: #f2f7fa;
+  --theme-card-header: #34495e;
+  --theme-card-header-text: #fffdf5;
+  --theme-border: #1f2f3d;
+  --theme-primary: #64b5f6;
+  --theme-primary-hover: #90caf9;
+  --theme-secondary: #e57373;
+  --theme-accent: #81c784;
+  --theme-text: #1a2a38;
+  --theme-text-muted: #536f85;
+  --theme-hud: #131f29;
 }
 
-[data-theme="dos"] {
-  --theme-bg: #050505;
-  --theme-card: #0d1a0d;
-  --theme-card-hover: #152b15;
-  --theme-border: #33ff33;
-  --theme-primary: #33ff33;
-  --theme-secondary: #22aa22;
-  --theme-accent: #ffb000;
-  --theme-text: #33ff33;
-  --theme-text-muted: #208b20;
+[data-theme="night"] {
+  --theme-bg: #1c2333; /* Moonlit Stardew Night */
+  --theme-bg-pattern: #151a26;
+  --theme-card: #273142;
+  --theme-card-header: #141b26;
+  --theme-card-header-text: #f0f4f8;
+  --theme-border: #0d121a;
+  --theme-primary: #f6c85f;
+  --theme-primary-hover: #ffdf85;
+  --theme-secondary: #ff7b90;
+  --theme-accent: #6cd496;
+  --theme-text: #f0f4f8;
+  --theme-text-muted: #a3b2c7;
+  --theme-hud: #0e131c;
 }
 
 body {
@@ -73,10 +88,60 @@ body {
   color: var(--theme-text);
   font-family: var(--font-tech), sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-/* CRT Scanlines and Screen Effect */
+/* Cozy Farm Grid Pattern */
+.retro-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+
+/* Soft Harvest Moon Wooden Dialog Box */
+.wood-box {
+  background-color: var(--theme-card);
+  border: 4px solid var(--theme-border);
+  box-shadow: 
+    inset 2px 2px 0px 0px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 0px 0px rgba(0, 0, 0, 0.2),
+    4px 4px 0px 0px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+/* 3D Soft Farm Button */
+.farm-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-press-start), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 8px 16px;
+  border: 2px solid var(--theme-border);
+  box-shadow: 
+    inset 2px 2px 0px 0px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 0px 0px rgba(0, 0, 0, 0.25),
+    0 3px 0 0 rgba(0, 0, 0, 0.4);
+  transition: all 0.08s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.farm-btn:hover {
+  filter: brightness(1.05);
+}
+
+.farm-btn:active {
+  transform: translateY(3px);
+  box-shadow: 
+    inset 2px 2px 0px 0px rgba(0, 0, 0, 0.3),
+    0 0 0 0 transparent;
+}
+
+/* Subtle CRT Overlay */
 .crt-overlay {
   pointer-events: none;
   position: fixed;
@@ -84,9 +149,10 @@ body {
   z-index: 9999;
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.35) 50%
+    rgba(0, 0, 0, 0.12) 50%
   );
-  background-size: 100% 4px;
+  background-size: 100% 3px;
+  opacity: 0.7;
 }
 
 .crt-vignette {
@@ -96,159 +162,22 @@ body {
   z-index: 9998;
   background: radial-gradient(
     circle at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.6) 100%
+    transparent 70%,
+    rgba(0, 0, 0, 0.35) 100%
   );
 }
 
-.crt-flicker {
-  animation: flicker 0.15s infinite;
+/* Gentle Float Animation */
+@keyframes farmFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
-@keyframes flicker {
-  0% { opacity: 0.99; }
-  50% { opacity: 0.96; }
-  100% { opacity: 1; }
+.animate-pixel-float {
+  animation: farmFloat 2.8s ease-in-out infinite;
 }
 
-/* Scanline moving beam */
-.scanline-beam {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: 10000;
-  animation: scanlineMove 6s linear infinite;
-}
-
-@keyframes scanlineMove {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
-/* Retro Pixel Borders */
-.pixel-border {
-  box-shadow: 
-    -4px 0 0 0 var(--theme-border),
-    4px 0 0 0 var(--theme-border),
-    0 -4px 0 0 var(--theme-border),
-    0 4px 0 0 var(--theme-border);
-  margin: 4px;
-}
-
-.pixel-border-cyan {
-  box-shadow: 
-    -4px 0 0 0 #00f3ff,
-    4px 0 0 0 #00f3ff,
-    0 -4px 0 0 #00f3ff,
-    0 4px 0 0 #00f3ff;
-  margin: 4px;
-}
-
-.pixel-border-pink {
-  box-shadow: 
-    -4px 0 0 0 #ff007f,
-    4px 0 0 0 #ff007f,
-    0 -4px 0 0 #ff007f,
-    0 4px 0 0 #ff007f;
-  margin: 4px;
-}
-
-.pixel-border-yellow {
-  box-shadow: 
-    -4px 0 0 0 #ffe600,
-    4px 0 0 0 #ffe600,
-    0 -4px 0 0 #ffe600,
-    0 4px 0 0 #ffe600;
-  margin: 4px;
-}
-
-.pixel-border-green {
-  box-shadow: 
-    -4px 0 0 0 #39ff14,
-    4px 0 0 0 #39ff14,
-    0 -4px 0 0 #39ff14,
-    0 4px 0 0 #39ff14;
-  margin: 4px;
-}
-
-/* 3D Pixel Button Style */
-.pixel-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-press-start), monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 10px 18px;
-  box-shadow: 
-    inset -4px -4px 0px 0px rgba(0, 0, 0, 0.45),
-    inset 4px 4px 0px 0px rgba(255, 255, 255, 0.35),
-    0 4px 0 0 #000;
-  transition: all 0.08s ease;
-  user-select: none;
-  cursor: pointer;
-}
-
-.pixel-btn:active {
-  transform: translateY(4px);
-  box-shadow: 
-    inset 4px 4px 0px 0px rgba(0, 0, 0, 0.45),
-    inset -4px -4px 0px 0px rgba(255, 255, 255, 0.35),
-    0 0 0 0 #000;
-}
-
-/* Retro Pixel Box (RPG Dialog & Panels) */
-.pixel-box {
-  background-color: var(--theme-card);
-  border: 4px solid var(--theme-border);
-  position: relative;
-  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 0.6);
-}
-
-.pixel-box::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border: 2px dashed rgba(255, 255, 255, 0.15);
-  pointer-events: none;
-}
-
-/* Glowing Neon Text */
-.neon-glow-cyan {
-  text-shadow: 0 0 5px #00f3ff, 0 0 12px #00f3ff, 0 0 24px rgba(0, 243, 255, 0.6);
-}
-
-.neon-glow-pink {
-  text-shadow: 0 0 5px #ff007f, 0 0 12px #ff007f, 0 0 24px rgba(255, 0, 127, 0.6);
-}
-
-.neon-glow-yellow {
-  text-shadow: 0 0 5px #ffe600, 0 0 12px #ffe600, 0 0 24px rgba(255, 230, 0, 0.6);
-}
-
-.neon-glow-green {
-  text-shadow: 0 0 5px #39ff14, 0 0 12px #39ff14, 0 0 24px rgba(57, 255, 20, 0.6);
-}
-
-/* Pixel Text Shadow for readability */
-.pixel-shadow {
-  text-shadow: 
-    2px 2px 0 #000,
-    -2px -2px 0 #000,
-    2px -2px 0 #000,
-    -2px 2px 0 #000;
-}
-
-/* Blinking Animation */
+/* Blinking */
 @keyframes retroBlink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -258,40 +187,23 @@ body {
   animation: retroBlink 0.9s infinite;
 }
 
-/* Float / Hover Sprite Animation */
-@keyframes pixelFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.animate-pixel-float {
-  animation: pixelFloat 2.5s ease-in-out infinite;
-}
-
-/* Retro Grid Background */
-.retro-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 0, 127, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
-}
-
-/* Custom Scrollbar */
+/* Custom Soft Scrollbars */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090314;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff007f;
-  border: 2px solid #000;
+  background: #8c5835;
+  border: 1px solid #4a2e18;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f3ff;
+  background: #e69d24;
 }
-

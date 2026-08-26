@@ -17,7 +17,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onNavigateStage 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    questType: 'Full-time Raid',
+    questType: 'Full-time Harvest',
     message: '',
   });
 
@@ -34,7 +34,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onNavigateStage 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      alert('Please fill out all required fields in the terminal!');
+      alert('Please fill out all required fields in the letter!');
       return;
     }
 
@@ -57,192 +57,195 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onNavigateStage 
     setFormData({
       name: '',
       email: '',
-      questType: 'Full-time Raid',
+      questType: 'Full-time Harvest',
       message: '',
     });
   };
 
   return (
-    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-6 select-none max-w-5xl mx-auto w-full">
-      <div className="space-y-6">
-        {/* Section Header */}
-        <div className="text-left space-y-2">
-          <div className="inline-block bg-black border-2 border-[#39ff14] px-3 py-1 font-press-start text-[9px] text-[#39ff14] shadow-[2px_2px_0_0_#ff007f]">
-            STAGE 06 // SAVE POINT & COMMS
+    <section className="h-full overflow-y-auto py-6 sm:py-8 px-4 sm:px-8 select-none max-w-7xl mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        {/* Left Side: Title & Save Diary & Social Beacons Panel */}
+        <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-2">
+          {/* Section Header */}
+          <div className="space-y-1.5 border-b-2 border-[#8c5835]/30 pb-3">
+            <div className="inline-block bg-[#fff8eb] border-2 border-[#8c5835] px-2.5 py-1 font-press-start text-[8px] sm:text-[9px] text-[#5c3a21] shadow-[2px_2px_0_0_rgba(0,0,0,0.25)]">
+              STAGE 06 // TOWN MAILBOX
+            </div>
+            <h2 className="font-press-start text-xl sm:text-2xl text-[#fffdf5] uppercase drop-shadow-[2px_2px_0_#4a2e18] leading-tight">
+              TOWN MAILBOX & CONTACT
+            </h2>
+            <p className="font-mono text-xs text-[#faecd4] leading-relaxed drop-shadow-[1px_1px_0_#2c1808]">
+              Save your diary progress, send a carrier letter, or recruit me for upcoming web projects.
+            </p>
           </div>
-          <h2 className="font-press-start text-xl sm:text-2xl text-white uppercase drop-shadow-[2px_2px_0_#39ff14]">
-            SAVE POINT // SEND TRANSMISSION
-          </h2>
-          <p className="font-mono text-xs sm:text-sm text-gray-400 max-w-xl">
-            Save your progress, forge a party alliance, or recruit me for upcoming web campaigns.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left: Save Point Crystal & Social Beacons */}
-          <div className="lg:col-span-5 space-y-5">
-            {/* Save Point Crystal Card */}
-            <div className="bg-[#140828] border-4 border-[#00f3ff] p-4 sm:p-5 shadow-[5px_5px_0_0_#000] text-center relative overflow-hidden">
-              <div className="w-14 h-14 mx-auto mb-2.5 bg-cyan-950/60 border-2 border-[#00f3ff] flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(0,243,255,0.5)] animate-pixel-float">
-                💎
-              </div>
-
-              <h3 className="font-press-start text-xs text-[#00f3ff] uppercase">
-                ★ RECOVERY CRYSTAL ACTIVE ★
-              </h3>
-              <p className="font-mono text-xs text-gray-300 mt-1.5 leading-relaxed">
-                HP & Mana fully restored! Your journey data is securely archived. Leave a message to establish an encrypted comm channel.
-              </p>
-
-              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-center space-x-2 text-[9px] font-press-start text-[#39ff14]">
-                <Save className="w-3 h-3 animate-pulse" />
-                <span>AUTOSAVE ENABLED</span>
-              </div>
+          {/* Farm Diary / Save Crystal Box */}
+          <div className="bg-[#fff8eb] border-4 border-[#8c5835] p-4 shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] text-center relative overflow-hidden">
+            <div className="w-11 h-11 mx-auto mb-2 bg-[#faecd4] border-2 border-[#8c5835] flex items-center justify-center text-xl shadow-[0_0_15px_rgba(230,157,36,0.3)] animate-pixel-float">
+              📖
             </div>
 
-            {/* Social Beacons */}
-            <SocialInventory />
+            <h3 className="font-press-start text-[9px] sm:text-xs text-[#5c3a21] uppercase">
+              ★ FARM DIARY ARCHIVE ★
+            </h3>
+            <p className="font-mono text-xs text-[#5c3a21] mt-1 leading-relaxed">
+              Stamina & Progress saved! Leave a letter to establish a direct correspondence.
+            </p>
+
+            <div className="mt-2.5 pt-2 border-t border-[#8c5835]/20 flex items-center justify-center space-x-2 text-[8px] sm:text-[9px] font-press-start text-[#5a8740]">
+              <Save className="w-3 h-3 animate-pulse" />
+              <span>AUTOSAVE ACTIVE</span>
+            </div>
           </div>
 
-          {/* Right: Retro Terminal Contact Form */}
-          <div className="lg:col-span-7">
-            <PixelCard
-              title="TRANSMISSION TERMINAL v1.0"
-              badge="PORT 8080"
-              headerColor="green"
-              borderColor="green"
+          {/* Social Beacons */}
+          <SocialInventory />
+
+          {/* Return Home Button */}
+          {onNavigateStage && (
+            <PixelButton
+              variant="wood"
+              size="md"
+              soundType="jump"
+              onClick={() => onNavigateStage(0)}
+              icon={<Home className="w-3.5 h-3.5" />}
+              className="w-full justify-between"
             >
-              {isSuccess ? (
-                <div className="py-6 text-center space-y-3 animate-in zoom-in-95 duration-200">
-                  <div className="w-14 h-14 bg-green-950/60 border-2 border-[#39ff14] flex items-center justify-center mx-auto text-2xl">
-                    🎉
-                  </div>
-                  <h3 className="font-press-start text-xs sm:text-sm text-[#39ff14]">
-                    TRANSMISSION DISPATCHED!
-                  </h3>
-                  <p className="font-mono text-xs text-gray-300 max-w-sm mx-auto leading-relaxed">
-                    Your quest proposal has been successfully broadcast to my guild terminal. I will respond within 24 standard game ticks!
-                  </p>
-                  <div className="pt-2">
-                    <PixelButton
-                      variant="primary"
-                      size="md"
-                      onClick={handleReset}
-                    >
-                      SEND ANOTHER TRANSMISSION
-                    </PixelButton>
-                  </div>
+              <span>RETURN TO TITLE (00)</span>
+            </PixelButton>
+          )}
+        </div>
+
+        {/* Right Side: Letter Mailbox Contact Form */}
+        <div className="lg:col-span-7">
+          <PixelCard
+            title="TOWN DISPATCH LETTER"
+            badge="PARCHMENT"
+            headerColor="green"
+            borderColor="green"
+          >
+            {isSuccess ? (
+              <div className="py-6 text-center space-y-3 animate-in zoom-in-95 duration-200">
+                <div className="w-14 h-14 bg-[#faecd4] border-2 border-[#5a8740] flex items-center justify-center mx-auto text-2xl">
+                  🕊️
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-3.5">
-                  {/* Name Input */}
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="contact-name"
-                      className="block font-press-start text-[8px] sm:text-[9px] text-[#00f3ff] uppercase"
-                    >
-                      PLAYER NAME / GUILD ID *
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="e.g. Satoshi from Pixel Labs"
-                      className="w-full bg-black/80 border-2 border-white/20 px-3 py-1.5 text-xs font-mono text-white placeholder-gray-600 focus:outline-none focus:border-[#00f3ff] transition-colors"
-                    />
-                  </div>
+                <h3 className="font-press-start text-xs sm:text-sm text-[#4a6b36]">
+                  CARRIER LETTER DISPATCHED!
+                </h3>
+                <p className="font-mono text-xs text-[#5c3a21] max-w-sm mx-auto leading-relaxed">
+                  Your letter has been sent via carrier pigeon to my farm mailbox. I will write back within 1 standard day!
+                </p>
+                <div className="pt-2">
+                  <PixelButton
+                    variant="primary"
+                    size="md"
+                    onClick={handleReset}
+                  >
+                    SEND ANOTHER LETTER
+                  </PixelButton>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-3">
+                {/* Name */}
+                <div className="space-y-1">
+                  <label
+                    htmlFor="contact-name"
+                    className="block font-press-start text-[8px] sm:text-[9px] text-[#5c3a21] uppercase"
+                  >
+                    SENDER NAME / GUILD ID *
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="e.g. Mayor Thomas from Mineral Town"
+                    className="w-full bg-[#faecd4] border-2 border-[#8c5835]/40 px-3 py-1.5 text-xs font-mono text-[#362213] placeholder-gray-500 focus:outline-none focus:border-[#5a8740] transition-colors"
+                  />
+                </div>
 
-                  {/* Email Input */}
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="contact-email"
-                      className="block font-press-start text-[8px] sm:text-[9px] text-[#ff007f] uppercase"
-                    >
-                      COMMS EMAIL / TRANSMITTER *
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="e.g. adventurer@guild.com"
-                      className="w-full bg-black/80 border-2 border-white/20 px-3 py-1.5 text-xs font-mono text-white placeholder-gray-600 focus:outline-none focus:border-[#ff007f] transition-colors"
-                    />
-                  </div>
+                {/* Email */}
+                <div className="space-y-1">
+                  <label
+                    htmlFor="contact-email"
+                    className="block font-press-start text-[8px] sm:text-[9px] text-[#8c5835] uppercase"
+                  >
+                    CORRESPONDENCE EMAIL *
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="e.g. traveler@mineraltown.com"
+                    className="w-full bg-[#faecd4] border-2 border-[#8c5835]/40 px-3 py-1.5 text-xs font-mono text-[#362213] placeholder-gray-500 focus:outline-none focus:border-[#8c5835] transition-colors"
+                  />
+                </div>
 
-                  {/* Quest Type Selector */}
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="contact-quest-type"
-                      className="block font-press-start text-[8px] sm:text-[9px] text-[#ffe600] uppercase"
-                    >
-                      QUEST MISSION TYPE
-                    </label>
-                    <select
-                      id="contact-quest-type"
-                      name="questType"
-                      value={formData.questType}
-                      onChange={handleChange}
-                      className="w-full bg-black border-2 border-white/20 px-3 py-1.5 text-xs font-mono text-[#ffe600] focus:outline-none focus:border-[#ffe600] transition-colors cursor-pointer"
-                    >
-                      <option value="Full-time Raid">⚔️ Full-time Front-End Engineering</option>
-                      <option value="Freelance Mission">🛡️ Freelance / Contract Web Project</option>
-                      <option value="UI Consultation">🎨 Design System & UI/UX Audit</option>
-                      <option value="Coffee & Chill">☕ Coffee, Networking & Chitchat</option>
-                    </select>
-                  </div>
+                {/* Quest Type */}
+                <div className="space-y-1">
+                  <label
+                    htmlFor="contact-quest-type"
+                    className="block font-press-start text-[8px] sm:text-[9px] text-[#c48114] uppercase"
+                  >
+                    OPPORTUNITY TYPE
+                  </label>
+                  <select
+                    id="contact-quest-type"
+                    name="questType"
+                    value={formData.questType}
+                    onChange={handleChange}
+                    className="w-full bg-[#faecd4] border-2 border-[#8c5835]/40 px-3 py-1.5 text-xs font-mono text-[#5c3a21] focus:outline-none focus:border-[#c48114] transition-colors cursor-pointer"
+                  >
+                    <option value="Full-time Harvest">🌻 Full-time Front-End Engineering</option>
+                    <option value="Contract Harvest">🌾 Contract / Freelance Web Project</option>
+                    <option value="UI Consultation">🎨 UI/UX & Performance Consultation</option>
+                    <option value="Tea & Networking">🍵 Friendly Chat & Networking</option>
+                  </select>
+                </div>
 
-                  {/* Message Input */}
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="contact-message"
-                      className="block font-press-start text-[8px] sm:text-[9px] text-[#39ff14] uppercase"
-                    >
-                      QUEST BRIEF / MESSAGE *
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      required
-                      rows={3}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Detail your quest requirements, tech stack preferences, and timeline..."
-                      className="w-full bg-black/80 border-2 border-white/20 px-3 py-1.5 text-xs font-mono text-white placeholder-gray-600 focus:outline-none focus:border-[#39ff14] transition-colors resize-none"
-                    />
-                  </div>
+                {/* Message */}
+                <div className="space-y-1">
+                  <label
+                    htmlFor="contact-message"
+                    className="block font-press-start text-[8px] sm:text-[9px] text-[#4a6b36] uppercase"
+                  >
+                    LETTER BRIEF / INQUIRY *
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    required
+                    rows={3}
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Describe your web project, timeline, tech preferences, or greeting..."
+                    className="w-full bg-[#faecd4] border-2 border-[#8c5835]/40 px-3 py-1.5 text-xs font-mono text-[#362213] placeholder-gray-500 focus:outline-none focus:border-[#5a8740] transition-colors resize-none"
+                  />
+                </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-1 flex flex-wrap items-center justify-between gap-2">
-                    {onNavigateStage && (
-                      <button
-                        type="button"
-                        onClick={() => onNavigateStage(0)}
-                        className="font-press-start text-[8px] text-gray-400 hover:text-white flex items-center gap-1 cursor-pointer"
-                      >
-                        <Home className="w-3 h-3" />
-                        <span>RETURN TO TITLE</span>
-                      </button>
-                    )}
-                    <PixelButton
-                      type="submit"
-                      variant="green"
-                      size="md"
-                      disabled={isSubmitting}
-                      icon={<Send className="w-3.5 h-3.5 text-black" />}
-                    >
-                      {isSubmitting ? 'DISPATCHING...' : 'TRANSMIT MESSAGE'}
-                    </PixelButton>
-                  </div>
-                </form>
-              )}
-            </PixelCard>
-          </div>
+                {/* Submit */}
+                <div className="pt-1 flex justify-end">
+                  <PixelButton
+                    type="submit"
+                    variant="primary"
+                    size="md"
+                    disabled={isSubmitting}
+                    icon={<Send className="w-3.5 h-3.5 text-[#2c1808]" />}
+                    className="w-full sm:w-auto"
+                  >
+                    {isSubmitting ? 'DISPATCHING...' : 'DISPATCH LETTER'}
+                  </PixelButton>
+                </div>
+              </form>
+            )}
+          </PixelCard>
         </div>
       </div>
     </section>

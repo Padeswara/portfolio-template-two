@@ -21,102 +21,107 @@ export const PixelAvatar: React.FC = () => {
 
     setTimeout(() => {
       setIsJumping(false);
-    }, 400);
+    }, 380);
   };
 
   return (
     <div className="relative flex flex-col items-center select-none group">
       {/* Click prompt speech bubble */}
-      <div className="absolute -top-10 bg-black border-2 border-[#ffe600] px-2.5 py-1 text-[8px] font-press-start text-[#ffe600] shadow-[2px_2px_0_0_#ff007f] animate-bounce pointer-events-none">
-        TAP ME! 👆
+      <div className="absolute -top-9 bg-[#fff8eb] border-2 border-[#8c5835] px-2.5 py-1 text-[8px] font-press-start text-[#4a2e18] shadow-[2px_2px_0_0_rgba(0,0,0,0.3)] animate-bounce pointer-events-none">
+        SAY HELLO! 🌻
       </div>
 
-      {/* 8-Bit Pixel Character Container */}
+      {/* 8-Bit Harvest Moon Farmer Sprite Container */}
       <div
         onClick={handleAvatarClick}
-        className={`relative w-48 h-48 sm:w-56 sm:h-56 cursor-pointer transition-transform duration-300 ${
-          isJumping ? '-translate-y-8 scale-110' : 'animate-pixel-float'
+        className={`relative w-44 h-44 sm:w-52 sm:h-52 cursor-pointer transition-transform duration-300 ${
+          isJumping ? '-translate-y-6 scale-105' : 'animate-pixel-float'
         }`}
-        title="Click to jump and earn EXP!"
+        title="Tap to say hello and earn Gold & EXP!"
       >
-        {/* Glow halo */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#00f3ff]/20 via-[#ff007f]/20 to-[#ffe600]/20 rounded-full blur-xl animate-pulse" />
+        {/* Soft Sunlight Halo */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#e69d24]/20 via-[#7cb359]/20 to-[#fff8eb]/30 rounded-full blur-xl animate-pulse" />
 
-        {/* Pixel Canvas/SVG Character */}
+        {/* Harvest Moon Farmer Pixel SVG */}
         <svg
           viewBox="0 0 24 24"
-          className="w-full h-full drop-shadow-[0_10px_20px_rgba(0,243,255,0.4)]"
+          className="w-full h-full drop-shadow-[0_8px_16px_rgba(74,46,24,0.35)]"
           style={{ imageRendering: 'pixelated' }}
         >
-          {/* Hair / Headband (Cyberpunk Neon Pink) */}
-          <rect x="7" y="2" width="10" height="2" fill="#ff007f" />
-          <rect x="6" y="3" width="12" height="2" fill="#ff007f" />
-          <rect x="5" y="4" width="3" height="3" fill="#ff007f" />
-          <rect x="16" y="4" width="3" height="3" fill="#ff007f" />
-          <rect x="18" y="5" width="2" height="4" fill="#ffe600" /> {/* Headband knot */}
-          <rect x="19" y="8" width="2" height="3" fill="#ffe600" />
+          {/* Straw Hat Brim (Warm Golden Wheat) */}
+          <rect x="4" y="2" width="16" height="2" fill="#e6a122" />
+          <rect x="2" y="3" width="20" height="2" fill="#e6a122" />
+          <rect x="7" y="1" width="10" height="2" fill="#c48114" /> {/* Hat Crown */}
+          {/* Red Hat Ribbon */}
+          <rect x="7" y="3" width="10" height="1" fill="#d64545" />
 
-          {/* Skin Face (Peach / Pixel Skin) */}
-          <rect x="7" y="4" width="10" height="7" fill="#ffcca3" />
+          {/* Brown / Chestnut Hair */}
+          <rect x="6" y="5" width="12" height="2" fill="#5c3a21" />
+          <rect x="5" y="6" width="3" height="3" fill="#5c3a21" />
+          <rect x="16" y="6" width="3" height="3" fill="#5c3a21" />
+
+          {/* Peach Skin Face */}
+          <rect x="7" y="5" width="10" height="6" fill="#ffd1a9" />
           
-          {/* Eyes (Cyber Blue & White) */}
-          <rect x="8" y="6" width="2" height="2" fill="#090314" />
-          <rect x="9" y="6" width="1" height="1" fill="#00f3ff" />
-          <rect x="14" y="6" width="2" height="2" fill="#090314" />
-          <rect x="15" y="6" width="1" height="1" fill="#00f3ff" />
+          {/* Eyes (Warm Dark Brown) */}
+          <rect x="8" y="7" width="2" height="2" fill="#362213" />
+          <rect x="9" y="7" width="1" height="1" fill="#ffffff" />
+          <rect x="14" y="7" width="2" height="2" fill="#362213" />
+          <rect x="15" y="7" width="1" height="1" fill="#ffffff" />
 
-          {/* VR Visor / Tech Glasses (Toggleable glow look) */}
-          <rect x="7" y="6" width="10" height="1" fill="rgba(0, 243, 255, 0.4)" />
+          {/* Cheerful Blush */}
+          <rect x="7" y="8" width="2" height="1" fill="#ff9999" />
+          <rect x="15" y="8" width="2" height="1" fill="#ff9999" />
 
-          {/* Smile / Mouth */}
-          <rect x="11" y="9" width="2" height="1" fill="#c44536" />
+          {/* Smile */}
+          <rect x="11" y="9" width="2" height="1" fill="#b84337" />
 
-          {/* Body / Mage Robe & Developer Armor (Cyber Dark Violet & Cyan trim) */}
-          <rect x="7" y="11" width="10" height="7" fill="#15082a" />
-          <rect x="6" y="12" width="1" height="5" fill="#15082a" />
-          <rect x="17" y="12" width="1" height="5" fill="#15082a" />
+          {/* Red Plaid / White Undershirt */}
+          <rect x="7" y="11" width="10" height="4" fill="#d64545" />
+          <rect x="10" y="11" width="4" height="2" fill="#fff8eb" />
+
+          {/* Blue Denim Overalls */}
+          <rect x="7" y="13" width="10" height="5" fill="#4a709c" />
+          <rect x="8" y="11" width="2" height="3" fill="#4a709c" /> {/* Left Strap */}
+          <rect x="14" y="11" width="2" height="3" fill="#4a709c" /> {/* Right Strap */}
+          <rect x="8" y="13" width="1" height="1" fill="#e6a122" /> {/* Brass Button */}
+          <rect x="15" y="13" width="1" height="1" fill="#e6a122" /> {/* Brass Button */}
           
-          {/* Cyan Energy Armor Core / React Symbol */}
-          <rect x="10" y="12" width="4" height="4" fill="#00f3ff" />
-          <rect x="11" y="13" width="2" height="2" fill="#ffffff" />
+          {/* Overalls Pocket */}
+          <rect x="10" y="14" width="4" height="3" fill="#39587a" />
+          <rect x="11" y="15" width="2" height="1" fill="#e6a122" /> {/* Pocket Seed */}
 
-          {/* Golden Belt */}
-          <rect x="7" y="16" width="10" height="1" fill="#ffe600" />
-          <rect x="11" y="16" width="2" height="1" fill="#ff007f" />
+          {/* Left Hand holding Sprout */}
+          <rect x="4" y="13" width="2" height="2" fill="#ffd1a9" />
+          <rect x="3" y="11" width="2" height="2" fill="#5a8740" /> {/* Green Sprout Leaf */}
+          <rect x="4" y="10" width="1" height="1" fill="#7cb359" />
 
-          {/* Left Hand holding Code Wand / Stylus */}
-          <rect x="4" y="13" width="2" height="2" fill="#ffcca3" />
-          <rect x="3" y="10" width="1" height="6" fill="#ffe600" /> {/* Wand shaft */}
-          <rect x="2" y="9" width="3" height="2" fill="#00f3ff" /> {/* Wand crystal tip */}
+          {/* Right Hand with Watering Can */}
+          <rect x="18" y="13" width="2" height="2" fill="#ffd1a9" />
+          <rect x="19" y="12" width="3" height="3" fill="#e6a122" /> {/* Can body */}
+          <rect x="21" y="11" width="1" height="2" fill="#c48114" /> {/* Spout */}
 
-          {/* Right Hand with React Shield / Coffee Mug */}
-          <rect x="18" y="13" width="2" height="2" fill="#ffcca3" />
-          <rect x="19" y="12" width="3" height="3" fill="#ffffff" /> {/* Coffee Mug */}
-          <rect x="20" y="11" width="1" height="1" fill="#8b5a2b" /> {/* Coffee steam */}
-          <rect x="21" y="10" width="1" height="1" fill="#8b5a2b" />
-
-          {/* Legs & Pixel Boots */}
-          <rect x="8" y="18" width="3" height="3" fill="#0d0221" />
-          <rect x="13" y="18" width="3" height="3" fill="#0d0221" />
+          {/* Pants Legs */}
+          <rect x="8" y="18" width="3" height="3" fill="#39587a" />
+          <rect x="13" y="18" width="3" height="3" fill="#39587a" />
           
-          {/* Cyber Boots (Cyan) */}
-          <rect x="7" y="21" width="4" height="2" fill="#00f3ff" />
-          <rect x="13" y="21" width="4" height="2" fill="#00f3ff" />
+          {/* Work Boots (Leather Brown) */}
+          <rect x="7" y="21" width="4" height="2" fill="#5c3a21" />
+          <rect x="13" y="21" width="4" height="2" fill="#5c3a21" />
         </svg>
 
-        {/* Shadow underneath */}
+        {/* Soft Drop Shadow */}
         <div
-          className={`mx-auto h-2 bg-black/60 rounded-full blur-[2px] transition-all duration-300 ${
-            isJumping ? 'w-16 opacity-30 translate-y-8' : 'w-28 opacity-70'
+          className={`mx-auto h-2 bg-[#2c1808]/40 rounded-full blur-[2px] transition-all duration-300 ${
+            isJumping ? 'w-14 opacity-20 translate-y-6' : 'w-24 opacity-60'
           }`}
         />
       </div>
 
-      {/* Level Tag under sprite */}
-      <div className="mt-3 bg-black border-2 border-[#00f3ff] px-3 py-1 font-press-start text-[9px] text-[#00f3ff] shadow-[2px_2px_0_0_#ff007f]">
-        READY PLAYER 1
+      {/* Title Tag */}
+      <div className="mt-2 bg-[#fff8eb] border-2 border-[#8c5835] px-3 py-1 font-press-start text-[8px] sm:text-[9px] text-[#4a2e18] shadow-[2px_2px_0_0_rgba(0,0,0,0.3)]">
+        🧑‍🌾 FARMER READY
       </div>
     </div>
   );
 };
-

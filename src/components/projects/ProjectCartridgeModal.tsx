@@ -1,9 +1,8 @@
 import React from 'react';
 import type { Project } from '../../data/portfolioData';
 import { PixelButton } from '../ui/PixelButton';
-import { PixelBadge } from '../ui/PixelBadge';
 import { useAudio } from '../../context/AudioContext';
-import { X, ExternalLink, Code2, Skull, Gift, CheckCircle2 } from 'lucide-react';
+import { X, ExternalLink, Code2, Sparkles, CheckCircle } from 'lucide-react';
 
 interface ProjectCartridgeModalProps {
   project: Project | null;
@@ -15,135 +14,113 @@ export const ProjectCartridgeModal: React.FC<ProjectCartridgeModalProps> = ({ pr
 
   if (!project) return null;
 
-  const handleClose = () => {
-    playClick();
-    onClose();
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      {/* Retro Cartridge Shell */}
-      <div className="relative w-full max-w-2xl bg-[#180b30] border-4 border-[#00f3ff] shadow-[10px_10px_0_0_#000] text-white p-5 sm:p-7 max-h-[90vh] overflow-y-auto">
-        {/* Cartridge Notch / Grip Top */}
-        <div className="flex justify-center -mt-8 mb-4">
-          <div className="bg-[#241245] border-2 border-[#00f3ff] px-6 py-1 text-[8px] font-press-start text-[#00f3ff] shadow-[2px_2px_0_0_#000]">
-            ★ 64-BIT CARTRIDGE INSERTED ★
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs select-none animate-in fade-in duration-150">
+      <div className="relative w-full max-w-xl bg-[#fff8eb] border-4 border-[#4a2e18] shadow-[6px_6px_0_0_rgba(0,0,0,0.45)] text-[#362213] overflow-hidden">
+        {/* Top Cartridge Header */}
+        <div className="bg-[#8c5835] text-[#fff8eb] px-3.5 py-2 flex items-center justify-between border-b-2 border-[#4a2e18] font-press-start text-[9px] sm:text-[10px]">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm">📦</span>
+            <span className="truncate">{project.stageNumber}: {project.title}</span>
           </div>
-        </div>
-
-        {/* Top Header */}
-        <div className="flex items-start justify-between border-b-2 border-white/15 pb-4">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-press-start text-[10px] text-[#ffe600]">
-                {project.stageNumber}
-              </span>
-              <PixelBadge variant="pink" size="sm">
-                {project.bossRank}
-              </PixelBadge>
-            </div>
-            <h3 className="font-press-start text-base sm:text-xl text-white mt-1">
-              {project.title}
-            </h3>
-            <p className="font-mono text-xs text-gray-400 mt-0.5">
-              {project.subtitle}
-            </p>
-          </div>
-
           <button
-            onClick={handleClose}
-            className="p-1 text-gray-400 hover:text-[#ff007f] hover:bg-white/10 border border-white/20 transition-colors"
-            aria-label="Close cartridge modal"
+            onClick={() => {
+              playClick();
+              onClose();
+            }}
+            className="p-0.5 text-[#fff8eb] hover:bg-[#4a2e18] cursor-pointer"
+            aria-label="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="space-y-5 my-5">
-          {/* Boss Encounter Banner */}
-          <div className="bg-red-950/40 border-2 border-[#ff3838] p-3 flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-xs font-press-start text-[#ff3838]">
-              <Skull className="w-4 h-4 text-[#ff3838] animate-bounce" />
-              <span>BOSS: {project.bossName}</span>
+        <div className="p-4 sm:p-5 space-y-4 max-h-[80vh] overflow-y-auto font-mono text-xs">
+          {/* Blueprint Info */}
+          <div className="flex items-start space-x-3 bg-[#faecd4] p-3 border border-[#8c5835]/30">
+            <div className="w-12 h-12 bg-[#fff8eb] border-2 border-[#8c5835] flex items-center justify-center text-2xl shrink-0">
+              {project.image}
             </div>
-            <span className="font-mono text-xs text-[#ffe600] font-bold">
-              STATUS: DEFEATED ⚔️
-            </span>
+            <div>
+              <div className="font-press-start text-[9px] text-[#5a8740]">
+                {project.bossRank} HARVEST
+              </div>
+              <h3 className="font-press-start text-xs sm:text-sm text-[#362213] mt-0.5">
+                {project.title}
+              </h3>
+              <p className="text-[#5c3a21] mt-0.5 font-sans text-xs">
+                {project.subtitle}
+              </p>
+            </div>
           </div>
 
-          {/* Long Description */}
-          <div className="font-mono text-sm text-gray-200 leading-relaxed bg-black/40 p-4 border border-white/10">
-            {project.longDescription}
+          {/* Description */}
+          <div className="space-y-1">
+            <div className="font-press-start text-[8px] text-[#8c5835]">
+              HARVEST SPECIFICATIONS:
+            </div>
+            <p className="text-[#362213] leading-relaxed bg-[#fff8eb] p-2.5 border border-[#8c5835]/20">
+              {project.longDescription}
+            </p>
           </div>
 
-          {/* Key Features Checkpoints */}
-          <div className="space-y-2">
-            <div className="font-press-start text-[10px] text-[#00f3ff]">
-              QUEST OBJECTIVES COMPLETED:
+          {/* Key Features */}
+          <div className="space-y-1.5">
+            <div className="font-press-start text-[8px] text-[#5a8740]">
+              BLUEPRINT HIGHLIGHTS:
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs text-gray-300">
+            <div className="space-y-1 bg-[#faecd4] p-2.5 border border-[#8c5835]/30">
               {project.keyFeatures.map((feat, idx) => (
-                <div key={idx} className="flex items-start space-x-2 bg-[#120625] p-2 border border-white/10">
-                  <CheckCircle2 className="w-4 h-4 text-[#39ff14] shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start space-x-2 text-[#362213]">
+                  <CheckCircle className="w-3.5 h-3.5 text-[#5a8740] shrink-0 mt-0.5" />
                   <span>{feat}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Tech Loot Drops */}
-          <div className="space-y-2">
-            <div className="font-press-start text-[10px] text-[#ffe600] flex items-center gap-1.5">
-              <Gift className="w-3.5 h-3.5" />
-              <span>TECH STACK & LOOT DROPS:</span>
+          {/* Loot Drops */}
+          <div className="space-y-1">
+            <div className="font-press-start text-[8px] text-[#e69d24]">
+              LOOT REWARDS EARNED:
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {project.tags.map((tag) => (
-                <PixelBadge key={tag} variant="cyan" size="sm">
-                  {tag}
-                </PixelBadge>
-              ))}
-              {project.lootDrops.map((loot) => (
-                <PixelBadge key={loot} variant="yellow" size="sm">
-                  {loot}
-                </PixelBadge>
+              {project.lootDrops.map((loot, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-0.5 bg-[#faecd4] border border-[#e69d24] text-[9px] text-[#5c3a21] font-press-start flex items-center gap-1"
+                >
+                  <Sparkles className="w-2.5 h-2.5 text-[#e69d24]" />
+                  <span>{loot}</span>
+                </span>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t-2 border-white/15">
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => playLaser()}
-          >
-            <PixelButton
-              variant="dark"
-              size="md"
-              icon={<Code2 className="w-4 h-4" />}
+          {/* Buttons */}
+          <div className="pt-2 border-t border-[#8c5835]/30 flex flex-wrap items-center justify-end gap-2">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => playLaser()}
             >
-              SOURCE CODE
-            </PixelButton>
-          </a>
-
-          <a
-            href={project.demoUrl}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => playLaser()}
-          >
-            <PixelButton
-              variant="primary"
-              size="md"
-              icon={<ExternalLink className="w-4 h-4" />}
+              <PixelButton variant="dark" size="sm" icon={<Code2 className="w-3.5 h-3.5" />}>
+                SOURCE CODE
+              </PixelButton>
+            </a>
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => playLaser()}
             >
-              LAUNCH MISSION
-            </PixelButton>
-          </a>
+              <PixelButton variant="primary" size="sm" icon={<ExternalLink className="w-3.5 h-3.5" />}>
+                LAUNCH LIVE DEMO
+              </PixelButton>
+            </a>
+          </div>
         </div>
       </div>
     </div>
